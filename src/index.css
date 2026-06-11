@@ -1,0 +1,150 @@
+/* ============================================
+   Iqra Virtual School - Global Styles
+   Tailwind CSS v4 with custom design tokens
+   ============================================ */
+
+@import "tailwindcss";
+
+/* ---- Custom Theme Configuration ---- */
+@theme {
+  /* Brand Colors - Navy (Primary) & Gold (Secondary) from Logo */
+  --color-emerald-950: #011223;
+  --color-emerald-900: #022442;
+  --color-emerald-800: #033663;
+  --color-emerald-700: #003a5d; /* Logo Wreath Navy */
+  --color-emerald-600: #004e7c;
+  --color-emerald-500: #00639e;
+  --color-emerald-400: #3b8cc4;
+  --color-emerald-100: #d0e7f7;
+  --color-emerald-50: #eaf4fb;
+
+  --color-gold-600: #a37c1e;
+  --color-gold-500: #cba135; /* Logo Star Gold */
+  --color-gold-400: #dac162;
+  --color-gold-300: #e8d795;
+  --color-gold-200: #f3e9c3;
+  --color-gold-100: #faf6e4;
+
+  /* Neutral Palette */
+  --color-slate-950: #0a0f1a;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+
+  /* Shadows */
+  --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+  --shadow-elevated: 0 20px 50px -12px rgba(0, 0, 0, 0.15);
+  --shadow-glow-green: 0 0 30px rgba(0, 99, 158, 0.15);
+  --shadow-glow-gold: 0 0 30px rgba(203, 161, 53, 0.2);
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 3s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 3s ease-in-out infinite;
+}
+
+/* ---- Keyframes ---- */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* ---- Base Styles ---- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-slate-800);
+  background: var(--color-slate-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Utility Classes ---- */
+.text-gradient-green {
+  background: linear-gradient(135deg, var(--color-emerald-700), var(--color-emerald-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--color-gold-600), var(--color-gold-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-hero {
+  background: linear-gradient(135deg, var(--color-emerald-950) 0%, var(--color-emerald-900) 50%, var(--color-emerald-800) 100%);
+}
+
+.bg-gradient-section {
+  background: linear-gradient(180deg, var(--color-slate-50) 0%, white 50%, var(--color-slate-50) 100%);
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Grid pattern background */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(0, 58, 93, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 58, 93, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Gold decorative line */
+.gold-line {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-gold-500), var(--color-gold-300));
+  border-radius: 2px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-slate-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-emerald-600);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-emerald-700);
+}
