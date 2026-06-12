@@ -22,6 +22,8 @@ import {
 import SectionHeading from '../components/SectionHeading';
 import AnimatedSection from '../components/AnimatedSection';
 import AnimatedCounter from '../components/AnimatedCounter';
+import Hero3DContainer from '../components/Hero3DContainer';
+import Feature3DContainer from '../components/Feature3DContainer';
 
 /* ---- Core Pillar Data ---- */
 const pillars = [
@@ -32,6 +34,7 @@ const pillars = [
       'A nurturing approach to character development rooted in Islamic values, fostering integrity, empathy, and spiritual awareness in every student.',
     color: 'emerald',
     gradient: 'from-emerald-600 to-emerald-500',
+    shadow: 'shadow-[0_4px_20px_rgba(0,99,158,0.3)]',
   },
   {
     icon: BookOpen,
@@ -40,6 +43,7 @@ const pillars = [
       'A rigorous academic curriculum that cultivates critical thinking, creativity, and a lifelong love for learning across all disciplines.',
     color: 'gold',
     gradient: 'from-gold-500 to-gold-400',
+    shadow: 'shadow-[0_4px_20px_rgba(203,161,53,0.3)]',
   },
   {
     icon: Lightbulb,
@@ -48,6 +52,7 @@ const pillars = [
       'Embracing modern educational technology and teaching methods to prepare students for the challenges and opportunities of tomorrow.',
     color: 'emerald',
     gradient: 'from-emerald-700 to-emerald-600',
+    shadow: 'shadow-[0_4px_20px_rgba(0,58,93,0.3)]',
   },
   {
     icon: Globe,
@@ -56,6 +61,7 @@ const pillars = [
       'Building a strong, connected community of learners, parents, and educators who support each other in the pursuit of excellence.',
     color: 'gold',
     gradient: 'from-gold-600 to-gold-500',
+    shadow: 'shadow-[0_4px_20px_rgba(203,161,53,0.3)]',
   },
 ];
 
@@ -95,59 +101,41 @@ const testimonials = [
 function Home() {
   return (
     <div className="overflow-hidden">
-      {/* ================================================================
-          HERO SECTION - Split-screen layout
-          ================================================================ */}
-      <section id="hero" className="relative min-h-screen bg-slate-950 overflow-hidden flex items-center">
-        {/* Sleek dark-mode gradient mesh */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-emerald-900 via-slate-900 to-emerald-950 opacity-90" />
 
-        {/* Background decorative mesh elements */}
+      <section id="hero" className="relative min-h-screen lg:h-screen bg-slate-950 overflow-hidden flex items-center">
+        <div className="absolute inset-0 bg-linear-to-tr from-emerald-900 via-slate-900 to-emerald-950 opacity-90" />
+
         <div className="absolute inset-0">
-          {/* Asymmetrical radial glow */}
           <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-emerald-600/20 rounded-full blur-[120px] mix-blend-screen" />
           <div className="absolute top-1/3 -left-40 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[100px] mix-blend-screen" />
           <div className="absolute -bottom-20 right-1/4 w-[500px] h-[500px] bg-emerald-400/10 rounded-full blur-[80px] mix-blend-screen" />
-          {/* Subtle grid pattern overlay */}
           <div className="absolute inset-0 opacity-[0.04]">
             <div className="grid-pattern w-full h-full" />
           </div>
         </div>
 
-        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-28">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-12 min-h-[calc(100vh-160px)]">
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 lg:pt-16 lg:pb-0">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-12 mt-4 lg:mt-12 w-full">
 
-            {/* ---- Left Column: Text Content ---- */}
             <motion.div
               className="lg:w-[55%] z-10"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              {/* Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/10 mb-8"
-              >
-                <Sparkles className="w-4 h-4 text-gold-400" />
-                <span className="text-sm text-emerald-100 font-medium tracking-wide">Holistic Development & Moral Values</span>
-              </motion.div>
-
-              {/* Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.2rem] font-bold text-white leading-[1.1] mb-6">
+        
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.2rem] font-bold text-white leading-[1.1] mb-6 tracking-tight">
                 Character Building
-                <span className="block mt-2">Meets <span className="text-gradient-gold font-display italic pr-2">Academic</span></span>
-                <span className="text-emerald-300 block mt-1"> Excellence</span>
+                <span className="block mt-2">
+                  Meets <span className="font-display italic bg-gradient-to-r from-amber-400 via-gold-400 to-yellow-200 bg-clip-text text-transparent pr-2">Academic</span>
+                </span>
+                <span className="font-display italic bg-gradient-to-r from-amber-400 via-gold-400 to-yellow-200 bg-clip-text text-transparent block mt-1"> Excellence</span>
               </h1>
 
-              {/* Subtext */}
               <p className="text-lg text-emerald-100/80 max-w-xl leading-relaxed mb-10">
                 A premier Islamic virtual school redefining education. We seamlessly integrate profound moral values with a rigorous curriculum to nurture the complete development of every student—mind, body, and soul.
               </p>
 
-              {/* CTA Buttons */}
               <div className="flex flex-wrap gap-4">
                 <Link
                   to="/admissions"
@@ -168,7 +156,6 @@ function Home() {
                 </button>
               </div>
 
-              {/* Trust indicators */}
               <div className="mt-12 flex items-center gap-6">
                 <div className="flex -space-x-3">
                   {[
@@ -198,69 +185,22 @@ function Home() {
               </div>
             </motion.div>
 
-            {/* ---- Right Column: Asymmetrical Illustration ---- */}
-            {/* <motion.div
+            <motion.div
               className="lg:w-[45%] relative w-full mt-10 lg:mt-0"
               initial={{ opacity: 0, x: 50, scale: 0.95 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-800/40 to-emerald-600/10 rounded-[40px] transform rotate-6 scale-105 border border-white/5 shadow-2xl" />
-              <div className="relative bg-white/10 backdrop-blur-xl rounded-[32px] border border-white/20 p-8 lg:p-10 shadow-2xl overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gold-400/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-                
-                 <div className="absolute -left-6 top-1/4 w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-400 rounded-full blur-md opacity-40 animate-pulse" />
-                
-                 <div className="relative aspect-[4/3] rounded-2xl bg-gradient-to-br from-slate-900/60 to-emerald-950/60 border border-white/10 flex items-center justify-center overflow-hidden group shadow-inner">
-                   <div className="absolute inset-0 opacity-[0.15]">
-                    <svg className="w-full h-full" viewBox="0 0 400 300">
-                      <pattern id="geo" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
-                        <circle cx="25" cy="25" r="20" fill="none" stroke="white" strokeWidth="0.5" />
-                        <circle cx="0" cy="0" r="20" fill="none" stroke="white" strokeWidth="0.5" />
-                        <circle cx="50" cy="0" r="20" fill="none" stroke="white" strokeWidth="0.5" />
-                        <circle cx="0" cy="50" r="20" fill="none" stroke="white" strokeWidth="0.5" />
-                        <circle cx="50" cy="50" r="20" fill="none" stroke="white" strokeWidth="0.5" />
-                      </pattern>
-                      <rect width="400" height="300" fill="url(#geo)" />
-                    </svg>
-                  </div>
-
-                  <div className="text-center z-10 relative transform group-hover:scale-105 transition-transform duration-700">
-                    <BookOpen className="w-16 h-16 text-emerald-300/90 mx-auto mb-4 drop-shadow-lg" />
-                    <p className="text-emerald-50 text-sm font-semibold tracking-wider uppercase drop-shadow-md">
-                      Holistic Education
-                    </p>
-                    <p className="text-gold-300/80 text-xs mt-2 font-medium">
-                      Values • Character • Intellect
-                    </p>
-                  </div>
-                </div>
-
-                <div className="relative mt-8 h-24">
-                  <div className="absolute left-0 -top-4 bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20 shadow-xl transform -rotate-6 hover:rotate-0 transition-transform duration-300 z-20">
-                    <p className="text-2xl font-bold text-gold-400 drop-shadow-md">98%</p>
-                    <p className="text-xs text-emerald-100 mt-1 font-medium tracking-wide">Academic Growth</p>
-                  </div>
-                  <div className="absolute right-0 top-4 bg-emerald-900/40 backdrop-blur-xl rounded-2xl p-4 border border-emerald-500/20 shadow-xl transform rotate-3 hover:rotate-0 transition-transform duration-300 z-10">
-                    <p className="text-2xl font-bold text-white drop-shadow-md">K–12</p>
-                    <p className="text-xs text-emerald-200 mt-1 font-medium tracking-wide">Character Programs</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute -top-8 -right-4 lg:-right-8 w-24 h-24 bg-gradient-to-br from-gold-500 to-gold-400 rounded-[1.5rem] flex items-center justify-center shadow-glow-gold transform rotate-12 hover:rotate-0 transition-transform duration-500 animate-float z-30 border border-white/20">
-                <GraduationCap className="w-10 h-10 text-slate-900 -rotate-12 group-hover:rotate-0 transition-transform" />
-              </div>
-            </motion.div> */}
+              <Hero3DContainer />
+            </motion.div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2"
         >
           <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
             <motion.div
@@ -272,9 +212,7 @@ function Home() {
         </motion.div>
       </section>
 
-      {/* ================================================================
-          CORE PILLARS SECTION
-          ================================================================ */}
+
       <section id="pillars" className="py-24 lg:py-32 bg-gradient-section grid-pattern relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -291,20 +229,20 @@ function Home() {
                 <AnimatedSection key={pillar.title} delay={index * 0.1}>
                   <div
                     id={`pillar-${pillar.title.toLowerCase()}`}
-                    className="group relative bg-white rounded-2xl p-8 shadow-soft border border-slate-100 hover:shadow-card hover:-translate-y-2 transition-all duration-500 h-full"
+                    className="group relative bg-white rounded-3xl p-8 border border-slate-100 h-full overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out shadow-soft"
                   >
-                    {/* Icon */}
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${pillar.gradient} flex items-center justify-center mb-6 shadow-md group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                    
+                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${pillar.gradient} flex items-center justify-center mb-6 ${pillar.shadow} group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative z-10`}>
                       <Icon className="w-7 h-7 text-white" />
                     </div>
 
-                    {/* Title */}
+                    
                     <h3 className="text-xl font-bold text-slate-900 mb-3">{pillar.title}</h3>
 
-                    {/* Description */}
+                   
                     <p className="text-sm text-slate-500 leading-relaxed">{pillar.description}</p>
 
-                    {/* Bottom accent line */}
+                   
                     <div className={`absolute bottom-0 left-8 right-8 h-0.5 bg-gradient-to-r ${pillar.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full`} />
                   </div>
                 </AnimatedSection>
@@ -343,13 +281,9 @@ function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          WHY CHOOSE US / FEATURES SECTION
-          ================================================================ */}
       <section id="why-choose-us" className="py-24 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Image / illustration placeholder */}
             <AnimatedSection direction="left">
               <div className="relative">
                 <div className="aspect-square rounded-3xl bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200/50 flex items-center justify-center overflow-hidden">
@@ -361,30 +295,10 @@ function Home() {
                       <rect width="400" height="400" fill="url(#dots)" />
                     </svg>
                   </div>
-                  {/* <div className="text-center z-10 p-8">
-                    <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-emerald-600 to-emerald-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                      <GraduationCap className="w-12 h-12 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-emerald-900 mb-2">
-                      Holistic Education
-                    </h3>
-                    <p className="text-emerald-600/70 text-sm">
-                      Mind, Body & Soul
-                    </p>
-                  </div> */}
+                  
+                  <Feature3DContainer />
+                  
                 </div>
-
-                {/* <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl p-5 shadow-card border border-slate-100">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-500 to-gold-400 flex items-center justify-center">
-                      <Award className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-900">Accredited</p>
-                      <p className="text-xs text-slate-500">Certified Program</p>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </AnimatedSection>
 
