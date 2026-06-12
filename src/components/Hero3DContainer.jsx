@@ -5,6 +5,7 @@ import { Avatar } from './Avatar';
 
 export default function Hero3DContainer() {
   const [animation, setAnimation] = useState("Standing");
+  const [isMobile, setIsMobile] = useState(false);
   const waveTimeout = useRef(null);
 
   const triggerWave = () => {
@@ -26,9 +27,14 @@ export default function Hero3DContainer() {
       triggerWave();
     }, 2000);
 
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     return () => {
       clearTimeout(startWave);
       if (waveTimeout.current) clearTimeout(waveTimeout.current);
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
 
@@ -49,8 +55,13 @@ export default function Hero3DContainer() {
         <div className="absolute inset-0 bg-gold-500/5 filter blur-3xl rounded-t-full" />
       </div>
 
-      <Canvas shadows camera={{ position: [0, 0.5, 3.5], fov: 40, near: 0.1, far: 1000 }}>
-        <OrbitControls enableZoom={false} enablePan={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} target={[0, 0, 0]} />
+      <Canvas 
+        camera={{ position: [0, 0.5, 3.5], fov: 40, near: 0.1, far: 1000 }}
+        style={{ touchAction: 'pan-y' }}
+      >
+        {!isMobile && (
+          <OrbitControls enableZoom={false} enablePan={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} target={[0, 0, 0]} />
+        )}
         <Environment preset="city" />
 
         <Suspense fallback={null}>
@@ -60,14 +71,6 @@ export default function Hero3DContainer() {
             onPointerOver={() => document.body.style.cursor = 'pointer'}
             onPointerOut={() => document.body.style.cursor = 'auto'}
           >
-            <ContactShadows
-              opacity={0.5}
-              scale={10}
-              blur={2}
-              far={10}
-              resolution={256}
-              color="#000000"
-            />
             <Avatar animation={animation} scale={1.2} />
           </group>
         </Suspense>
