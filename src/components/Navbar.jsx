@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, BookOpen } from 'lucide-react';
+import JoinButton from './JoinButton';
 
 /* Navigation link definitions */
 const navLinks = [
@@ -75,17 +76,26 @@ function Navbar() {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                  className={`group relative px-2 py-2 mx-2 text-sm font-medium transition-colors duration-300 ${
                     isActive
                       ? isScrolled
-                        ? 'text-emerald-700 bg-emerald-50'
-                        : 'text-white bg-white/15'
+                        ? 'text-emerald-700'
+                        : 'text-white'
                       : isScrolled
-                        ? 'text-slate-600 hover:text-emerald-700 hover:bg-emerald-50/70'
-                        : 'text-white/80 hover:text-white hover:bg-white/10'
+                        ? 'text-slate-600 hover:text-emerald-700'
+                        : 'text-white/80 hover:text-white'
                   }`}
                 >
                   {link.name}
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-[2px] rounded-full transition-transform duration-300 ease-out ${
+                      isActive 
+                        ? 'scale-x-100 origin-left' 
+                        : 'scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left'
+                    } ${
+                      isScrolled ? 'bg-emerald-600' : 'bg-gold-400'
+                    }`}
+                  />
                 </Link>
               );
             })}
@@ -93,13 +103,7 @@ function Navbar() {
 
           {/* ---- CTA Button + Mobile Toggle ---- */}
           <div className="flex items-center gap-3">
-            <Link
-              to="/admissions"
-              id="cta-apply-now"
-              className="hidden sm:inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-gold-500 to-gold-400 text-emerald-950 text-sm font-semibold rounded-xl shadow-md hover:shadow-glow-gold hover:scale-105 transition-all duration-300"
-            >
-              Apply Now
-            </Link>
+            <JoinButton />
 
             {/* Mobile menu toggle */}
             <button

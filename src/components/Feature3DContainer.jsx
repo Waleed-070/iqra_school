@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { ContactShadows, Environment, OrbitControls, useGLTF, Center, Html } from '@react-three/drei';
+import { useInView } from 'framer-motion';
 import { Avatar } from './Avatar';
 
 function Chair(props) {
@@ -44,35 +45,38 @@ function Desk({ isZoomed, onZoomIn, ...props }) {
 
         {/* Reference points for the camera to move to */}
         <group ref={monitorRef} position={[0.01, 1.33, -0.51]} />
-        <group ref={camSpotRef} position={[0.01, 1.33, 1.0]} /> {/* Spot slightly further back from the screen */}
+        <group ref={camSpotRef} position={[0.01, 1.33, 1.50]} /> {/* Spot slightly further back from the screen */}
 
         {/* Iframe projected onto the monitor screen */}
         <Html
           transform
           wrapperClass="monitor-screen"
           distanceFactor={0.5}
-          position={[0.01, 1.32, -0.51]} 
-          rotation={[0, 0, 0]} 
-          scale={[1.08, 0.78, 1]}
-          occlude="blending" 
+          position={[0.01, 1.315, -0.51]} 
+          rotation={[0, 0, -0.01]} 
+          scale={0.755}
+          occlude="blending"
         >
-          <div className="relative" style={{ backfaceVisibility: "hidden" }}>
-            {/* Outer Breathing Neon Glow (Not clipped by overflow-hidden) */}
+          <div className="relative" style={{ backfaceVisibility: "hidden", width: "1150px", height: "500px" }}>
             {!isZoomed && (
-              <div className="absolute -inset-6 border-[8px] border-emerald-300 rounded-2xl shadow-[0_0_100px_rgba(52,211,153,1),inset_0_0_50px_rgba(52,211,153,0.8)] animate-pulse pointer-events-none" />
+              <div className="absolute -inset-6 border-8 border-emerald-300 rounded-2xl shadow-[0_0_100px_rgba(52,211,153,1),inset_0_0_50px_rgba(52,211,153,0.8)] animate-pulse pointer-events-none" />
             )}
 
             <div
-              className="w-[800px] h-[500px] bg-slate-900 overflow-hidden rounded-lg flex items-center justify-center pointer-events-auto relative group"
+              className={`w-full h-full bg-linear-to-br from-emerald-900 via-slate-900 to-emerald-950 
+              overflow-hidden rounded-lg flex flex-col items-center justify-center 
+              text-center pointer-events-auto relative group transition-all duration-700
+              ${isZoomed ? '-ml-104 -mt-6' : '-ml-115 mt-2'}`}
             >
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://iqravirtualschool.com/"
-                className="w-full h-full"
-              />
-              
-              {/* HTML Overlay to perfectly intercept clicks when not zoomed in */}
+              <div className="text-4xl font-bold text-white mb-3">✦ IVS ✦</div>
+              <div className="text-2xl font-bold text-white mb-2">IQRA Virtual School</div>
+              <div className="text-emerald-300/80 text-sm">Leading Online School in Pakistan & Gulf Countries</div>
+              <div className="mt-6 flex gap-3 flex-wrap justify-center">
+                <span className="px-3 py-1 bg-emerald-600/30 text-emerald-200 text-xs rounded-full border border-emerald-500/30">British Curriculum</span>
+                <span className="px-3 py-1 bg-emerald-600/30 text-emerald-200 text-xs rounded-full border border-emerald-500/30">Cambridge IGCSE</span>
+                <span className="px-3 py-1 bg-emerald-600/30 text-emerald-200 text-xs rounded-full border border-emerald-500/30">O/A Level</span>
+              </div>
+
               {!isZoomed && (
                 <div 
                   className="absolute inset-0 cursor-pointer flex items-center justify-center group/overlay"
@@ -81,7 +85,6 @@ function Desk({ isZoomed, onZoomIn, ...props }) {
                     onZoomIn(monitorRef.current, camSpotRef.current);
                   }}
                 >
-                  {/* Hover state background */}
                   <div className="absolute inset-0 bg-black/0 group-hover/overlay:bg-white/10 transition-colors duration-300 pointer-events-none" />
                   
                   <div className="-translate-y-40 bg-emerald-600 text-white px-14 py-8 rounded-[3rem] font-black text-5xl tracking-widest opacity-0 group-hover/overlay:opacity-100 transition-all duration-300 pointer-events-none shadow-[0_0_60px_rgba(5,150,105,1)] border-[6px] border-emerald-400 transform scale-95 group-hover/overlay:scale-100 flex items-center gap-6">
@@ -92,7 +95,7 @@ function Desk({ isZoomed, onZoomIn, ...props }) {
                   </div>
                 </div>
               )}
-            </div>
+            </div> 
           </div>
         </Html>
       </Center>
@@ -101,6 +104,8 @@ function Desk({ isZoomed, onZoomIn, ...props }) {
 }
 
 export default function Feature3DContainer() {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { margin: "200px" });
   const [scale, setScale] = useState(1.2);
   const [position, setPosition] = useState([-0.75, -1.5, -1]);
   const [isMobile, setIsMobile] = useState(false);
@@ -140,7 +145,7 @@ export default function Feature3DContainer() {
   }, []);
 
   return (
-    <div className="relative w-full h-full min-h-[300px] md:min-h-[400px] flex items-center justify-center overflow-visible z-10 select-none">
+    <div ref={containerRef} className="relative w-full h-full min-h-[300px] md:min-h-[400px] flex items-center justify-center overflow-visible z-10 select-none">
       {/* Explicit Exit Zoom Button */}
       {isZoomed && (
         <div className="absolute top-4 right-4 z-50">
@@ -157,6 +162,8 @@ export default function Feature3DContainer() {
       )}
 
       <Canvas
+        dpr={[1, 1.5]}
+        frameloop={isInView ? 'always' : 'demand'}
         camera={{ position: [0, 0.5, 3.5], fov: 40, near: 0.1, far: 1000 }}
         style={{ touchAction: 'pan-y' }}
         onPointerMissed={() => setIsZoomed(false)} // Click outside to zoom back out
@@ -195,7 +202,7 @@ export default function Feature3DContainer() {
           </mesh>
           <group
             position={position}
-            rotation={[0, Math.PI / 1.5, 0]}
+            rotation={[0, Math.PI / 1.25, 0]}
             scale={scale}
           >
             <Avatar animation="Typing2" scale={1.2} visible={!isZoomed} />

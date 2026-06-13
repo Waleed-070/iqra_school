@@ -73,7 +73,8 @@ export function Avatar(props) {
     }
   }, [animation, actions]);
 
-  // Make the upper body follow the cursor
+  // Make the upper body follow the cursor (Disabled per request)
+  /*
   useFrame((state) => {
     if (group.current) {
       // Find the spine and head bones
@@ -99,6 +100,7 @@ export function Avatar(props) {
       }
     }
   });
+  */
 
   return (
     <group {...props} ref={group} dispose={null}>

@@ -1,9 +1,12 @@
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ContactShadows, Environment, OrbitControls } from '@react-three/drei';
+import { useInView } from 'framer-motion';
 import { Avatar } from './Avatar';
 
 export default function Hero3DContainer() {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { margin: "200px" });
   const [animation, setAnimation] = useState("Standing");
   const [isMobile, setIsMobile] = useState(false);
   const waveTimeout = useRef(null);
@@ -39,7 +42,7 @@ export default function Hero3DContainer() {
   }, []);
 
   return (
-    <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[750px] flex items-center justify-center overflow-visible">
+    <div ref={containerRef} className="relative w-full h-[400px] sm:h-[500px] lg:h-[750px] flex items-center justify-center overflow-visible">
       
       {/* Architectural Archway Frame (Signature Element) */}
       <div 
@@ -56,6 +59,8 @@ export default function Hero3DContainer() {
       </div>
 
       <Canvas 
+        dpr={[1, 1.5]}
+        frameloop={isInView ? 'always' : 'demand'}
         camera={{ position: [0, 0.5, 3.5], fov: 40, near: 0.1, far: 1000 }}
         style={{ touchAction: 'pan-y' }}
       >

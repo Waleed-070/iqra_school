@@ -96,12 +96,12 @@ function About() {
       {/* ================================================================
           OVERVIEW SECTION
           ================================================================ */}
-      <section id="overview" className="py-24 lg:py-32 bg-white">
+      <section id="overview" className="py-24 lg:py-32 bg-[#e0e0e0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Image placeholder */}
             <AnimatedSection direction="left">
-              <div className="relative aspect-[4/3] rounded-3xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200/30 overflow-hidden">
+              <div className="relative aspect-[4/3] rounded-[50px] bg-gradient-to-br from-emerald-50 to-emerald-100/50 border-none overflow-hidden shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center p-8">
                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-600 flex items-center justify-center mx-auto mb-5 shadow-lg">
@@ -149,7 +149,7 @@ function About() {
       {/* ================================================================
           MISSION & VISION
           ================================================================ */}
-      <section id="mission-vision" className="py-24 lg:py-32 bg-gradient-section grid-pattern">
+      <section id="mission-vision" className="py-24 lg:py-32 bg-[#e0e0e0] grid-pattern">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             subtitle="Our Purpose"
@@ -160,7 +160,7 @@ function About() {
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Mission Card */}
             <AnimatedSection delay={0}>
-              <div className="bg-white rounded-3xl p-10 shadow-card border border-slate-100 hover:shadow-elevated transition-all duration-500 h-full">
+              <div className="bg-[#e0e0e0] rounded-[50px] p-10 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-600 flex items-center justify-center mb-7 shadow-md">
                   <Target className="w-8 h-8 text-white" />
                 </div>
@@ -175,7 +175,7 @@ function About() {
 
             {/* Vision Card */}
             <AnimatedSection delay={0.15}>
-              <div className="bg-white rounded-3xl p-10 shadow-card border border-slate-100 hover:shadow-elevated transition-all duration-500 h-full">
+              <div className="bg-[#e0e0e0] rounded-[50px] p-10 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-400 flex items-center justify-center mb-7 shadow-md">
                   <Eye className="w-8 h-8 text-white" />
                 </div>
@@ -194,7 +194,7 @@ function About() {
       {/* ================================================================
           CORE VALUES
           ================================================================ */}
-      <section id="values" className="py-24 lg:py-32 bg-white">
+      <section id="values" className="py-24 lg:py-32 bg-[#e0e0e0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             subtitle="What Guides Us"
@@ -207,7 +207,7 @@ function About() {
               const Icon = value.icon;
               return (
                 <AnimatedSection key={value.title} delay={index * 0.08}>
-                  <div className="group relative bg-slate-50/80 rounded-2xl p-7 border border-slate-100 hover:bg-white hover:shadow-card hover:border-emerald-100 transition-all duration-500 h-full">
+                  <div className="group relative bg-[#e0e0e0] rounded-[50px] p-7 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full">
                     <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center mb-5 group-hover:bg-gradient-to-br group-hover:from-emerald-600 group-hover:to-emerald-500 transition-all duration-300">
                       <Icon className="w-6 h-6 text-emerald-600 group-hover:text-white transition-colors duration-300" />
                     </div>

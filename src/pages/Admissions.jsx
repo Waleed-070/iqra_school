@@ -22,6 +22,8 @@ import {
   Users,
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
+import SubmitButton from '../components/SubmitButton';
+import FloatingInput from '../components/FloatingInput';
 import AnimatedSection from '../components/AnimatedSection';
 
 /* ---- Onboarding Steps Data ---- */
@@ -303,67 +305,43 @@ function Admissions() {
                   <div className="grid sm:grid-cols-2 gap-5 mb-10">
                     {/* Student Name */}
                     <div className="sm:col-span-2">
-                      <label htmlFor="studentName" className="block text-sm font-medium text-slate-700 mb-2">
-                        Student Full Name
-                      </label>
-                      <div className="relative">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          id="studentName"
-                          name="studentName"
-                          type="text"
-                          value={formData.studentName}
-                          onChange={handleChange}
-                          required
-                          placeholder="Enter student's full name"
-                          className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                        />
-                      </div>
+                      <FloatingInput
+                        id="studentName"
+                        label="Student Full Name"
+                        value={formData.studentName}
+                        onChange={handleChange}
+                        required
+                        Icon={User}
+                      />
                     </div>
 
                     {/* Age */}
                     <div>
-                      <label htmlFor="age" className="block text-sm font-medium text-slate-700 mb-2">
-                        Age
-                      </label>
-                      <div className="relative">
-                        <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          id="age"
-                          name="age"
-                          type="number"
-                          min="4"
-                          max="19"
-                          value={formData.age}
-                          onChange={handleChange}
-                          required
-                          placeholder="Student's age"
-                          className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                        />
-                      </div>
+                      <FloatingInput
+                        id="age"
+                        type="number"
+                        min="4"
+                        max="19"
+                        label="Age"
+                        value={formData.age}
+                        onChange={handleChange}
+                        required
+                        Icon={Calendar}
+                      />
                     </div>
 
                     {/* Grade */}
                     <div>
-                      <label htmlFor="grade" className="block text-sm font-medium text-slate-700 mb-2">
-                        Desired Grade
-                      </label>
-                      <div className="relative">
-                        <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <select
-                          id="grade"
-                          name="grade"
-                          value={formData.grade}
-                          onChange={handleChange}
-                          required
-                          className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all appearance-none"
-                        >
-                          <option value="">Select grade</option>
-                          {gradeOptions.map((g) => (
-                            <option key={g} value={g}>{g}</option>
-                          ))}
-                        </select>
-                      </div>
+                      <FloatingInput
+                        as="select"
+                        id="grade"
+                        label="Desired Grade"
+                        value={formData.grade}
+                        onChange={handleChange}
+                        required
+                        Icon={GraduationCap}
+                        options={gradeOptions}
+                      />
                     </div>
                   </div>
 
@@ -378,91 +356,56 @@ function Admissions() {
                   <div className="grid sm:grid-cols-2 gap-5 mb-10">
                     {/* Parent Name */}
                     <div className="sm:col-span-2">
-                      <label htmlFor="parentName" className="block text-sm font-medium text-slate-700 mb-2">
-                        Parent / Guardian Name
-                      </label>
-                      <div className="relative">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          id="parentName"
-                          name="parentName"
-                          type="text"
-                          value={formData.parentName}
-                          onChange={handleChange}
-                          required
-                          placeholder="Parent or guardian's full name"
-                          className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                        />
-                      </div>
+                      <FloatingInput
+                        id="parentName"
+                        label="Parent / Guardian Name"
+                        value={formData.parentName}
+                        onChange={handleChange}
+                        required
+                        Icon={User}
+                      />
                     </div>
 
                     {/* Parent Email */}
                     <div>
-                      <label htmlFor="parentEmail" className="block text-sm font-medium text-slate-700 mb-2">
-                        Email Address
-                      </label>
-                      <div className="relative">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          id="parentEmail"
-                          name="parentEmail"
-                          type="email"
-                          value={formData.parentEmail}
-                          onChange={handleChange}
-                          required
-                          placeholder="email@example.com"
-                          className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                        />
-                      </div>
+                      <FloatingInput
+                        id="parentEmail"
+                        type="email"
+                        label="Email Address"
+                        value={formData.parentEmail}
+                        onChange={handleChange}
+                        required
+                        Icon={Mail}
+                      />
                     </div>
 
                     {/* Parent Phone */}
                     <div>
-                      <label htmlFor="parentPhone" className="block text-sm font-medium text-slate-700 mb-2">
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
-                          id="parentPhone"
-                          name="parentPhone"
-                          type="tel"
-                          value={formData.parentPhone}
-                          onChange={handleChange}
-                          required
-                          placeholder="+1 (555) 000-0000"
-                          className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                        />
-                      </div>
+                      <FloatingInput
+                        id="parentPhone"
+                        type="tel"
+                        label="Phone Number"
+                        value={formData.parentPhone}
+                        onChange={handleChange}
+                        required
+                        Icon={Phone}
+                      />
                     </div>
                   </div>
 
                   {/* Additional Message */}
                   <div className="mb-8">
-                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
-                      Additional Notes (Optional)
-                    </label>
-                    <textarea
+                    <FloatingInput
+                      as="textarea"
                       id="message"
-                      name="message"
+                      label="Additional Notes (Optional)"
                       value={formData.message}
                       onChange={handleChange}
                       rows={4}
-                      placeholder="Any special requirements, questions, or additional information..."
-                      className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
                     />
                   </div>
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    id="submit-application"
-                    className="w-full group flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-700 to-emerald-600 text-white font-bold rounded-2xl shadow-md hover:shadow-glow-green hover:scale-[1.02] transition-all duration-300"
-                  >
-                    <Send className="w-5 h-5" />
-                    Submit Application
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
+{/* Submit Application */}
+                  <SubmitButton />
 
                   <p className="text-center text-xs text-slate-400 mt-4">
                     By submitting, you agree to our privacy policy and terms of service.

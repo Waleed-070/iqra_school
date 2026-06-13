@@ -109,7 +109,7 @@ function Faculty() {
       {/* ================================================================
           FACULTY GRID
           ================================================================ */}
-      <section id="faculty-grid" className="py-24 lg:py-32 bg-gradient-section grid-pattern">
+      <section id="faculty-grid" className="py-24 lg:py-32 bg-[#e0e0e0] grid-pattern">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             subtitle="Educators"
@@ -122,11 +122,9 @@ function Faculty() {
               <AnimatedSection key={member.name} delay={index * 0.08}>
                 <div
                   id={`faculty-${member.initials.toLowerCase()}`}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-soft border border-slate-100 hover:shadow-card hover:-translate-y-2 transition-all duration-500"
+                  className="group bg-[#e0e0e0] rounded-[50px] overflow-hidden border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500"
                 >
-                  {/* Avatar / Header */}
                   <div className="relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center overflow-hidden">
-                    {/* Decorative background pattern */}
                     <div className="absolute inset-0 opacity-5">
                       <svg className="w-full h-full" viewBox="0 0 200 200">
                         <pattern id={`p-${index}`} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -136,18 +134,14 @@ function Faculty() {
                       </svg>
                     </div>
 
-                    {/* Avatar circle */}
                     <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${member.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 z-10`}>
                       <span className="text-2xl font-bold text-white">{member.initials}</span>
                     </div>
 
-                    {/* Department badge */}
                     <div className="absolute top-4 right-4 px-3 py-1 bg-white/80 backdrop-blur-sm rounded-full text-xs font-medium text-emerald-700 border border-emerald-100/50">
                       {member.department}
                     </div>
                   </div>
-
-                  {/* Content */}
                   <div className="p-6">
                     <h3 className="text-lg font-bold text-slate-900 mb-1 group-hover:text-emerald-700 transition-colors">
                       {member.name}
@@ -155,7 +149,6 @@ function Faculty() {
                     <p className="text-sm font-medium text-gold-500 mb-3">{member.role}</p>
                     <p className="text-sm text-slate-500 leading-relaxed mb-4">{member.bio}</p>
 
-                    {/* Action link */}
                     <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
                       <Mail className="w-4 h-4" />
                       <span>Contact</span>
@@ -172,10 +165,10 @@ function Faculty() {
       {/* ================================================================
           JOIN TEAM CTA
           ================================================================ */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-[#e0e0e0]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
-            <div className="bg-gradient-to-br from-emerald-950 to-emerald-900 rounded-3xl p-10 lg:p-14 text-center relative overflow-hidden">
+            <div className="bg-gradient-to-br from-emerald-950 to-emerald-900 rounded-[50px] p-10 lg:p-14 text-center relative overflow-hidden shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]">
               <div className="absolute inset-0 opacity-5 grid-pattern" />
               <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-3xl" />
 

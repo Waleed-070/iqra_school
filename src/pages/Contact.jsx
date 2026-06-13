@@ -18,6 +18,9 @@ import {
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
 import AnimatedSection from '../components/AnimatedSection';
+import FloatingInput from '../components/FloatingInput';
+import SubmitButton from '../components/SubmitButton';
+import ContactCard from '../components/ContactCard';
 
 /* ---- Contact Details Data ---- */
 const contactDetails = [
@@ -103,26 +106,14 @@ function Contact() {
       {/* ================================================================
           CONTACT INFO CARDS
           ================================================================ */}
-      <section id="contact-info" className="py-24 lg:py-32 bg-white">
+      <section id="contact-info" className="py-24 lg:py-32 bg-[#e0e0e0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-            {contactDetails.map((detail, index) => {
-              const Icon = detail.icon;
-              return (
-                <AnimatedSection key={detail.title} delay={index * 0.1}>
-                  <div className="group bg-white rounded-2xl p-7 shadow-soft border border-slate-100 hover:shadow-card hover:-translate-y-1 transition-all duration-500 text-center h-full">
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${detail.gradient} flex items-center justify-center mx-auto mb-5 shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="w-7 h-7 text-white" />
-                    </div>
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">
-                      {detail.title}
-                    </h3>
-                    <p className="text-sm text-slate-600 mb-1">{detail.primary}</p>
-                    <p className="text-sm text-slate-400">{detail.secondary}</p>
-                  </div>
-                </AnimatedSection>
-              );
-            })}
+            {contactDetails.map((detail, index) => (
+              <AnimatedSection key={detail.title} delay={index * 0.1}>
+                <ContactCard detail={detail} />
+              </AnimatedSection>
+            ))}
           </div>
 
           {/* ================================================================
@@ -162,99 +153,67 @@ function Contact() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     onSubmit={handleSubmit}
-                    className="bg-white rounded-3xl p-8 sm:p-10 shadow-card border border-slate-100"
+                    className="bg-[#e0e0e0] rounded-[50px] p-8 sm:p-10 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]"
                   >
                     <h3 className="text-2xl font-bold text-slate-900 mb-2">Send Us a Message</h3>
                     <p className="text-slate-500 text-sm mb-8">
                       Fill out the form below and we'll get back to you as soon as possible.
                     </p>
 
-                    <div className="space-y-5">
+                    <div className="space-y-2">
                       {/* Name */}
-                      <div>
-                        <label htmlFor="contact-name" className="block text-sm font-medium text-slate-700 mb-2">
-                          Your Name
-                        </label>
-                        <input
-                          id="contact-name"
-                          name="name"
-                          type="text"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          placeholder="Full name"
-                          className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                        />
-                      </div>
+                      <FloatingInput
+                        id="name"
+                        label="Your Name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                      />
 
                       {/* Email */}
-                      <div>
-                        <label htmlFor="contact-email" className="block text-sm font-medium text-slate-700 mb-2">
-                          Email Address
-                        </label>
-                        <input
-                          id="contact-email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          placeholder="email@example.com"
-                          className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                        />
-                      </div>
+                      <FloatingInput
+                        id="email"
+                        type="email"
+                        label="Email Address"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
 
                       {/* Subject */}
-                      <div>
-                        <label htmlFor="contact-subject" className="block text-sm font-medium text-slate-700 mb-2">
-                          Subject
-                        </label>
-                        <select
-                          id="contact-subject"
-                          name="subject"
-                          value={formData.subject}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all appearance-none"
-                        >
-                          <option value="">Select a subject</option>
-                          <option value="admissions">Admissions Inquiry</option>
-                          <option value="academics">Academic Programs</option>
-                          <option value="tuition">Tuition & Fees</option>
-                          <option value="technical">Technical Support</option>
-                          <option value="general">General Question</option>
-                          <option value="other">Other</option>
-                        </select>
-                      </div>
+                      <FloatingInput
+                        as="select"
+                        id="subject"
+                        label="Subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        required
+                        options={[
+                          {value: "admissions", label: "Admissions Inquiry"},
+                          {value: "academics", label: "Academic Programs"},
+                          {value: "tuition", label: "Tuition & Fees"},
+                          {value: "technical", label: "Technical Support"},
+                          {value: "general", label: "General Question"},
+                          {value: "other", label: "Other"}
+                        ]}
+                      />
 
                       {/* Message */}
-                      <div>
-                        <label htmlFor="contact-message" className="block text-sm font-medium text-slate-700 mb-2">
-                          Message
-                        </label>
-                        <textarea
-                          id="contact-message"
-                          name="message"
-                          value={formData.message}
-                          onChange={handleChange}
-                          required
-                          rows={5}
-                          placeholder="How can we help you?"
-                          className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
-                        />
-                      </div>
+                      <FloatingInput
+                        as="textarea"
+                        id="message"
+                        label="Message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        rows={5}
+                      />
                     </div>
 
                     {/* Submit */}
-                    <button
-                      type="submit"
-                      id="contact-submit"
-                      className="w-full mt-6 group flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-700 to-emerald-600 text-white font-bold rounded-2xl shadow-md hover:shadow-glow-green hover:scale-[1.02] transition-all duration-300"
-                    >
-                      <Send className="w-5 h-5" />
-                      Send Message
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    <div className="mt-8">
+                      <SubmitButton text="Send Message" />
+                    </div>
                   </motion.form>
                 )}
               </AnimatePresence>
@@ -264,7 +223,7 @@ function Contact() {
             <AnimatedSection direction="right">
               <div className="space-y-8">
                 {/* Map placeholder */}
-                <div className="relative aspect-[4/3] rounded-3xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200/30 overflow-hidden">
+                <div className="relative aspect-[4/3] rounded-[50px] bg-gradient-to-br from-emerald-50 to-emerald-100/50 border-none overflow-hidden shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
                       <div className="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center mx-auto mb-4">
@@ -288,7 +247,7 @@ function Contact() {
                 </div>
 
                 {/* Quick contact card */}
-                <div className="bg-gradient-to-br from-emerald-950 to-emerald-900 rounded-2xl p-8 relative overflow-hidden">
+                <div className="bg-gradient-to-br from-emerald-950 to-emerald-900 rounded-[50px] p-8 relative overflow-hidden shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]">
                   <div className="absolute inset-0 opacity-5 grid-pattern" />
                   <div className="relative">
                     <div className="flex items-center gap-3 mb-5">
@@ -316,7 +275,7 @@ function Contact() {
                 </div>
 
                 {/* Social / FAQ callout */}
-                <div className="bg-white rounded-2xl p-7 shadow-soft border border-slate-100">
+                <div className="bg-[#e0e0e0] rounded-[50px] p-8 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]">
                   <h3 className="text-lg font-bold text-slate-900 mb-2">Have More Questions?</h3>
                   <p className="text-sm text-slate-500 mb-5">
                     Visit our FAQ page or connect with us on social media for quick responses.

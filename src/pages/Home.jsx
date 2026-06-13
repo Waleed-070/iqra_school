@@ -19,6 +19,10 @@ import AnimatedSection from '../components/AnimatedSection';
 import AnimatedCounter from '../components/AnimatedCounter';
 import Hero3DContainer from '../components/Hero3DContainer';
 import Feature3DContainer from '../components/Feature3DContainer';
+import JoinButton from '../components/JoinButton';
+import AnimatedHoverText from '../components/AnimatedHoverText';
+import AnimatedArrow from '../components/AnimatedArrow';
+import StarryBackground from '../components/StarryBackground';
 
 const pillars = [
   {
@@ -94,16 +98,13 @@ function Home() {
   return (
     <div className="overflow-hidden">
 
-      <section id="hero" className="relative min-h-screen lg:h-screen bg-slate-950 overflow-hidden flex items-center">
-        <div className="absolute inset-0 bg-linear-to-tr from-emerald-900 via-slate-900 to-emerald-950 opacity-90" />
+      <section id="hero" className="relative min-h-screen lg:h-screen overflow-hidden flex items-center">
+        <StarryBackground />
 
-        <div className="absolute inset-0">
-          <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-emerald-600/20 rounded-full blur-[120px] mix-blend-screen" />
-          <div className="absolute top-1/3 -left-40 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[100px] mix-blend-screen" />
-          <div className="absolute -bottom-20 right-1/4 w-[500px] h-[500px] bg-emerald-400/10 rounded-full blur-[80px] mix-blend-screen" />
-          <div className="absolute inset-0 opacity-[0.04]">
-            <div className="grid-pattern w-full h-full" />
-          </div>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-emerald-600/10 rounded-full blur-[120px] mix-blend-screen" />
+          <div className="absolute top-1/3 -left-40 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[100px] mix-blend-screen" />
+          <div className="absolute -bottom-20 right-1/4 w-[500px] h-[500px] bg-emerald-400/5 rounded-full blur-[80px] mix-blend-screen" />
         </div>
 
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 lg:pt-16 lg:pb-0">
@@ -129,14 +130,11 @@ function Home() {
               </p>
 
               <div className="flex flex-wrap gap-4">
-                <Link
-                  to="/admissions"
-                  id="hero-apply-btn"
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-gold-500 to-gold-400 text-slate-900 font-bold rounded-2xl shadow-lg hover:shadow-glow-gold hover:scale-105 transition-all duration-300"
-                >
-                  Start Your Journey
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <JoinButton
+                  text="Start Your Journey"
+                  className="inline-block"
+                  style={{ transform: 'scale(1)', transformOrigin: 'left center' }}
+                />
                 <button
                   id="hero-tour-btn"
                   className="group inline-flex items-center gap-3 px-8 py-4 bg-white/5 backdrop-blur-sm text-white font-semibold rounded-2xl border border-white/10 hover:bg-white/10 hover:border-white/30 transition-all duration-300"
@@ -144,7 +142,10 @@ function Home() {
                   <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Play className="w-3.5 h-3.5 text-emerald-300 fill-emerald-300 ml-0.5" />
                   </div>
-                  Discover Our Approach
+                  <AnimatedHoverText
+                    text="Discover Our Approach"
+                    className="group-hover:translate-x-1 group-hover:text-emerald-200 transition-all duration-300"
+                  />
                 </button>
               </div>
 
@@ -272,12 +273,12 @@ function Home() {
         </div>
       </section>
 
-      <section id="why-choose-us" className="py-24 lg:py-32 bg-white">
+       <section id="why-choose-us" className="py-24 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <AnimatedSection direction="left">
               <div className="relative">
-                <div className="aspect-square rounded-3xl bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200/50 flex items-center justify-center overflow-hidden">
+                <div className="aspect-square rounded-3xl bg-linear-to-br from-emerald-50 to-emerald-100 border border-emerald-200/50 flex items-center justify-center overflow-hidden">
                   <div className="absolute inset-0 opacity-10">
                     <svg className="w-full h-full" viewBox="0 0 400 400">
                       <pattern id="dots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
@@ -293,7 +294,6 @@ function Home() {
               </div>
             </AnimatedSection>
 
-            {/* Right: Feature list */}
             <AnimatedSection direction="right">
               <SectionHeading
                 subtitle="Why Choose Us"
@@ -338,12 +338,12 @@ function Home() {
             </AnimatedSection>
           </div>
         </div>
-      </section>
+      </section> 
 
       {/* ================================================================
           TESTIMONIALS SECTION
           ================================================================ */}
-      <section id="testimonials" className="py-24 lg:py-32 bg-gradient-section grid-pattern">
+      <section id="testimonials" className="py-24 lg:py-32 bg-[#e0e0e0] grid-pattern">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             subtitle="Testimonials"
@@ -354,20 +354,17 @@ function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <AnimatedSection key={testimonial.name} delay={index * 0.15}>
-                <div className="bg-white rounded-2xl p-8 shadow-soft border border-slate-100 hover:shadow-card transition-all duration-500 h-full flex flex-col">
-                  {/* Stars */}
+                <div className="bg-[#e0e0e0] rounded-[50px] p-8 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full flex flex-col">
                   <div className="flex gap-1 mb-5">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 text-gold-500 fill-gold-500" />
                     ))}
                   </div>
 
-                  {/* Quote */}
                   <p className="text-slate-600 leading-relaxed mb-6 flex-1 italic">
                     "{testimonial.quote}"
                   </p>
 
-                  {/* Author */}
                   <div className="flex items-center gap-3 pt-5 border-t border-slate-100">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-500 flex items-center justify-center text-white text-sm font-bold">
                       {testimonial.name.split(' ').map((n) => n[0]).join('')}
@@ -414,14 +411,14 @@ function Home() {
                 to="/admissions"
                 className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-gold-500 to-gold-400 text-emerald-950 font-bold rounded-2xl shadow-lg hover:shadow-glow-gold hover:scale-105 transition-all duration-300"
               >
-                Begin Enrollment
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <AnimatedHoverText text="Begin Enrollment" color="#022c22" />
+                <AnimatedArrow color="#022c22" shadowColor="rgba(2, 44, 34, 0.3)" />
               </Link>
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300"
               >
-                Contact Us
+                <AnimatedHoverText text="Contact Us" color="white" />
               </Link>
             </div>
           </AnimatedSection>
