@@ -60,7 +60,7 @@ export default function Hero3DContainer() {
         style={{ touchAction: 'pan-y' }}
       >
         {!isMobile && (
-          <OrbitControls enableZoom={false} enablePan={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} target={[0, 0, 0]} />
+          <OrbitControls target={[0, 0, 0]} enableZoom={false} enablePan={false} />
         )}
         <Environment preset="city" />
 

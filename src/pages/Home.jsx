@@ -1,8 +1,3 @@
-/**
- * Home.jsx - Landing page for Iqra Virtual School.
- * Features a hero section with split layout, core pillars grid,
- * stats counter, testimonials, and a call-to-action banner.
- */
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -25,7 +20,6 @@ import AnimatedCounter from '../components/AnimatedCounter';
 import Hero3DContainer from '../components/Hero3DContainer';
 import Feature3DContainer from '../components/Feature3DContainer';
 
-/* ---- Core Pillar Data ---- */
 const pillars = [
   {
     icon: Heart,
@@ -65,7 +59,6 @@ const pillars = [
   },
 ];
 
-/* ---- Statistics Data ---- */
 const stats = [
   { value: '500+', label: 'Students Enrolled', icon: Users },
   { value: '50+', label: 'Expert Faculty', icon: GraduationCap },
@@ -73,7 +66,6 @@ const stats = [
   { value: '15+', label: 'Years of Excellence', icon: Award },
 ];
 
-/* ---- Testimonials Data ---- */
 const testimonials = [
   {
     name: 'Fatima Ahmed',
@@ -200,7 +192,7 @@ function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+          className="hidden md:block absolute bottom-12 left-1/2 -translate-x-1/2"
         >
           <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
             <motion.div
@@ -221,7 +213,6 @@ function Home() {
             description="Our educational philosophy is built on four foundational pillars that guide every aspect of our students' learning journey."
           />
 
-          {/* Pillars Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {pillars.map((pillar, index) => {
               const Icon = pillar.icon;
@@ -243,7 +234,7 @@ function Home() {
                     <p className="text-sm text-slate-500 leading-relaxed">{pillar.description}</p>
 
                    
-                    <div className={`absolute bottom-0 left-8 right-8 h-0.5 bg-gradient-to-r ${pillar.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full`} />
+                    <div className={`absolute bottom-0 left-8 right-8 h-0.5 bg-linear-to-r ${pillar.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full`} />
                   </div>
                 </AnimatedSection>
               );
