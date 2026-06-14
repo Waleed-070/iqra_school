@@ -67,8 +67,8 @@ const StyledWrapper = styled.div`
 
   .button {
     --primary: #fff; /* White active text */
-    --neutral-1: #059669; /* Emerald 600 */
-    --neutral-2: #047857; /* Emerald 700 */
+    --neutral-1: var(--color-emerald-500);
+    --neutral-2: var(--color-emerald-600);
     --radius: 30px;
 
     cursor: pointer;
@@ -94,12 +94,12 @@ const StyledWrapper = styled.div`
   .button:hover {
     transform: scale(1.02);
     box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
-      0 15px 30px rgba(5, 150, 105, 0.4), 0 10px 3px -3px rgba(5, 150, 105, 0.2);
+      0 15px 30px rgba(0, 0, 0, 0.2), 0 10px 3px -3px rgba(0, 0, 0, 0.1);
   }
   .button:active {
     transform: scale(1);
     box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
-      0 10px 3px -3px rgba(5, 150, 105, 0.2);
+      0 10px 3px -3px rgba(0, 0, 0, 0.1);
   }
   .button:after {
     content: "";

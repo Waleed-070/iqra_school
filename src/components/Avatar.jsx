@@ -8,8 +8,21 @@ import * as THREE from "three";
 import { SkeletonUtils } from "three-stdlib";
 
 export function Avatar(props) {
-  const { animation = "Standing" } = props;
+  const { animation = "Standing", onFirstFrame, visible: externalVisible = true, ...restProps } = props;
   const group = useRef();
+  const [hasRenderedFirstFrame, setHasRenderedFirstFrame] = React.useState(false);
+
+  // We keep the mesh completely invisible until the very first render frame completes.
+  // By this time, the animation mixer has fully engaged, making a T-pose mathematically impossible to see.
+  useFrame(() => {
+    if (!hasRenderedFirstFrame) {
+      setHasRenderedFirstFrame(true);
+      if (onFirstFrame) onFirstFrame();
+    }
+  });
+  
+  // Only visible if both the first frame has rendered AND the parent component wants it visible
+  const isActuallyVisible = hasRenderedFirstFrame && externalVisible;
   
   // Load models and animations from public directory
   const { scene } = useGLTF("/models/646d9dcdc8a5f5bddbfac913.glb");
@@ -46,7 +59,7 @@ export function Avatar(props) {
   wavingAnimation[0].name = "Waving";
   typing2Animation[0].name = "Typing2";
 
-  const { actions } = useAnimations(
+  const { actions, mixer } = useAnimations(
     [
       standingAnimation[0],
       wavingAnimation[0],
@@ -64,6 +77,14 @@ export function Avatar(props) {
     if (action) {
         action.reset().play();
         
+        // If this is the very first animation playing (component just mounted),
+        // we force the mixer to update synchronously. This completely bypasses
+        // browser requestAnimationFrame throttling that occurs when the Canvas is 
+        // covered by the transition overlay, permanently eliminating the T-pose glitch.
+        if (!previousAction.current && mixer) {
+            mixer.update(0.1);
+        }
+        
         // Smoothly crossfade from the previous animation
         if (previousAction.current && previousAction.current !== action) {
             action.crossFadeFrom(previousAction.current, 0.5, true);
@@ -71,7 +92,7 @@ export function Avatar(props) {
         
         previousAction.current = action;
     }
-  }, [animation, actions]);
+  }, [animation, actions, mixer]);
 
   // Make the upper body follow the cursor (Disabled per request)
   /*
@@ -103,7 +124,7 @@ export function Avatar(props) {
   */
 
   return (
-    <group {...props} ref={group} dispose={null}>
+    <group {...restProps} ref={group} dispose={null} visible={isActuallyVisible}>
       <group rotation-x={-Math.PI / 2}>
         <primitive object={nodes.Hips} />
         <skinnedMesh
@@ -178,3 +199,6 @@ export function Avatar(props) {
 }
 
 useGLTF.preload("/models/646d9dcdc8a5f5bddbfac913.glb");
+useFBX.preload("/animations/StandingIdle.fbx");
+useFBX.preload("/animations/Waving.fbx");
+useFBX.preload("/animations/Typing2.fbx");

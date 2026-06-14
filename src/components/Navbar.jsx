@@ -4,10 +4,12 @@
  * and a prominent "Apply Now" CTA button with scroll-based styling.
  */
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, BookOpen } from 'lucide-react';
 import JoinButton from './JoinButton';
+import ThemeSwitcher from './ThemeSwitcher';
+import TransitionLink from './TransitionLink';
 
 /* Navigation link definitions */
 const navLinks = [
@@ -48,7 +50,7 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* ---- Logo ---- */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <TransitionLink to="/" className="flex items-center gap-3 group">
             <img 
               src="/ivsl3-logo.png" 
               alt="Iqra Virtual School Logo" 
@@ -66,14 +68,14 @@ function Navbar() {
                 Virtual School
               </span>
             </div>
-          </Link>
+          </TransitionLink>
 
           {/* ---- Desktop Navigation Links ---- */}
           <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
-                <Link
+                <TransitionLink
                   key={link.name}
                   to={link.path}
                   className={`group relative px-2 py-2 mx-2 text-sm font-medium transition-colors duration-300 ${
@@ -96,13 +98,14 @@ function Navbar() {
                       isScrolled ? 'bg-emerald-600' : 'bg-gold-400'
                     }`}
                   />
-                </Link>
+                </TransitionLink>
               );
             })}
           </div>
 
           {/* ---- CTA Button + Mobile Toggle ---- */}
           <div className="flex items-center gap-3">
+            <ThemeSwitcher isScrolled={isScrolled} />
             <JoinButton />
 
             {/* Mobile menu toggle */}
@@ -134,7 +137,7 @@ function Navbar() {
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
-                  <Link
+                  <TransitionLink
                     key={link.name}
                     to={link.path}
                     className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
@@ -144,15 +147,15 @@ function Navbar() {
                     }`}
                   >
                     {link.name}
-                  </Link>
+                  </TransitionLink>
                 );
               })}
-              <Link
+              <TransitionLink
                 to="/admissions"
                 className="block mt-3 text-center px-4 py-3 bg-gradient-to-r from-gold-500 to-gold-400 text-emerald-950 font-semibold rounded-xl shadow-md"
               >
                 Apply Now
-              </Link>
+              </TransitionLink>
             </div>
           </motion.div>
         )}

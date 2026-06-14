@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import TransitionLink from './TransitionLink';
 
 const JoinButton = ({ text = "Apply Now", className = "hidden sm:block", style = { transform: 'scale(0.6)', transformOrigin: 'center', margin: '0 -44px' } }) => {
   const letters = text.split('');
   return (
     <StyledWrapper className={className} style={{ ...style, '--font-size': letters.length > 10 ? '16px' : '23px' }}>
-      <Link to="/admissions" className="button" style={{ display: 'block', textDecoration: 'none' }}>
+      <TransitionLink to="/admissions" className="button" style={{ display: 'block', textDecoration: 'none' }}>
 
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 342 208" height={208} width={342} className="splash">
           <path strokeLinecap="round" strokeWidth={3} d="M54.1054 99.7837C54.1054 99.7837 40.0984 90.7874 26.6893 97.6362C13.2802 104.485 1.5 97.6362 1.5 97.6362" />
@@ -47,7 +47,7 @@ const JoinButton = ({ text = "Apply Now", className = "hidden sm:block", style =
             </span>
           </div>
         </div>
-      </Link>
+      </TransitionLink>
     </StyledWrapper>
   );
 };

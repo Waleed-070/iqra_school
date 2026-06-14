@@ -5,50 +5,261 @@
 
 @import "tailwindcss";
 
+/* ---- Dynamic Theme Variables ---- */
+:root {
+  /* Default: Cartoonish Red & Warm Orange */
+  --theme-primary-950: #380B13;
+  --theme-primary-900: #5C101D;
+  --theme-primary-800: #8E1528;
+  --theme-primary-700: #C21D35;
+  --theme-primary-600: #E63946;
+  --theme-primary-500: #FF4D5E;
+  --theme-primary-400: #FF707F;
+  --theme-primary-100: #FFD6DC;
+  --theme-primary-50: #FFF0F2;
+
+  --theme-secondary-600: #D96A00;
+  --theme-secondary-500: #FF8800;
+  --theme-secondary-400: #FFA833;
+  --theme-secondary-300: #FFC466;
+  --theme-secondary-200: #FFDF99;
+  --theme-secondary-100: #FFF2D6;
+
+  --theme-neutral-950: #1C1918;
+  --theme-neutral-900: #2F2A28;
+  --theme-neutral-800: #463F3C;
+  --theme-neutral-700: #5F5651;
+  --theme-neutral-600: #766D67;
+  --theme-neutral-500: #8C837C;
+  --theme-neutral-400: #A89F98;
+  --theme-neutral-300: #C4BBB4;
+  --theme-neutral-200: #DDD6CF;
+  --theme-neutral-100: #EFECE9;
+  --theme-neutral-50: #FAF9F8;
+
+  /* Base Shadows (Desktop) */
+  --base-shadow-soft: 0 8px 30px -5px rgba(0, 0, 0, 0.08);
+  --base-shadow-card: 0 15px 40px -10px rgba(0, 0, 0, 0.1);
+  --base-shadow-elevated: 0 25px 60px -15px rgba(0, 0, 0, 0.15);
+  --base-shadow-glow-green: 0 0 40px rgba(0, 0, 0, 0.15);
+  --base-shadow-glow-gold: 0 0 40px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  :root {
+    /* Base Shadows (Mobile - Scaled down for GPU performance) */
+    --base-shadow-soft: 0 4px 15px -3px rgba(0, 0, 0, 0.08);
+    --base-shadow-card: 0 8px 20px -5px rgba(0, 0, 0, 0.1);
+    --base-shadow-elevated: 0 12px 30px -8px rgba(0, 0, 0, 0.15);
+    --base-shadow-glow-green: 0 0 20px rgba(0, 0, 0, 0.15);
+    --base-shadow-glow-gold: 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+[data-theme="navy"] {
+  /* Option A: Royal Navy & Champagne Gold */
+  --theme-primary-950: #050E1E;
+  --theme-primary-900: #0B1933;
+  --theme-primary-800: #122B57;
+  --theme-primary-700: #183C7A;
+  --theme-primary-600: #1E4D9C;
+  --theme-primary-500: #2563EB;
+  --theme-primary-400: #60A5FA;
+  --theme-primary-100: #DBEAFE;
+  --theme-primary-50: #EFF6FF;
+
+  --theme-secondary-600: #9A7B39;
+  --theme-secondary-500: #B8964C;
+  --theme-secondary-400: #D4AF5E;
+  --theme-secondary-300: #E8C982;
+  --theme-secondary-200: #F3DEAB;
+  --theme-secondary-100: #FCF4D9;
+
+  --theme-neutral-950: #0B1120;
+  --theme-neutral-900: #0F172A;
+  --theme-neutral-800: #1E293B;
+  --theme-neutral-700: #334155;
+  --theme-neutral-600: #475569;
+  --theme-neutral-500: #64748B;
+  --theme-neutral-400: #94A3B8;
+  --theme-neutral-300: #CBD5E1;
+  --theme-neutral-200: #E2E8F0;
+  --theme-neutral-100: #F1F5F9;
+  --theme-neutral-50: #F8FAFC;
+}
+
+[data-theme="burgundy"] {
+  /* Option B: Academic Burgundy & Warm Gold */
+  --theme-primary-950: #2A040B;
+  --theme-primary-900: #470A15;
+  --theme-primary-800: #751225;
+  --theme-primary-700: #A11D36;
+  --theme-primary-600: #C22644;
+  --theme-primary-500: #E11D48;
+  --theme-primary-400: #FB7185;
+  --theme-primary-100: #FFE4E6;
+  --theme-primary-50: #FFF1F2;
+
+  --theme-secondary-600: #A87E34;
+  --theme-secondary-500: #C89945;
+  --theme-secondary-400: #E4B456;
+  --theme-secondary-300: #F0D08A;
+  --theme-secondary-200: #F7E4B2;
+  --theme-secondary-100: #FDF7E1;
+
+  --theme-neutral-950: #1F1517;
+  --theme-neutral-900: #352629;
+  --theme-neutral-800: #4C373B;
+  --theme-neutral-700: #664E52;
+  --theme-neutral-600: #80666B;
+  --theme-neutral-500: #9C8186;
+  --theme-neutral-400: #B8A1A5;
+  --theme-neutral-300: #D6C4C7;
+  --theme-neutral-200: #EADCE0;
+  --theme-neutral-100: #F5EEF0;
+  --theme-neutral-50: #FBF8F9;
+}
+
+[data-theme="oceanic"] {
+  /* Option C: Oceanic Teal & Coral */
+  --theme-primary-950: #061922;
+  --theme-primary-900: #0C3343;
+  --theme-primary-800: #124D65;
+  --theme-primary-700: #186686;
+  --theme-primary-600: #1A759A;
+  --theme-primary-500: #1E88E5;
+  --theme-primary-400: #42A5F5;
+  --theme-primary-100: #BBDEFB;
+  --theme-primary-50: #E3F2FD;
+
+  --theme-secondary-600: #D84315;
+  --theme-secondary-500: #FF5722;
+  --theme-secondary-400: #FF7043;
+  --theme-secondary-300: #FF8A65;
+  --theme-secondary-200: #FFAB91;
+  --theme-secondary-100: #FBE9E7;
+
+  --theme-neutral-950: #0F172A;
+  --theme-neutral-900: #1E293B;
+  --theme-neutral-800: #334155;
+  --theme-neutral-700: #475569;
+  --theme-neutral-600: #64748B;
+  --theme-neutral-500: #94A3B8;
+  --theme-neutral-400: #CBD5E1;
+  --theme-neutral-300: #E2E8F0;
+  --theme-neutral-200: #F1F5F9;
+  --theme-neutral-100: #F8FAFC;
+  --theme-neutral-50: #FFFFFF;
+}
+
+[data-theme="midnight"] {
+  /* Option D: Midnight Violet & Cyan */
+  --theme-primary-950: #170A1C;
+  --theme-primary-900: #2E1537;
+  --theme-primary-800: #4A2259;
+  --theme-primary-700: #652F7A;
+  --theme-primary-600: #7A3892;
+  --theme-primary-500: #9C27B0;
+  --theme-primary-400: #AB47BC;
+  --theme-primary-100: #E1BEE7;
+  --theme-primary-50: #F3E5F5;
+
+  --theme-secondary-600: #00838F;
+  --theme-secondary-500: #00BCD4;
+  --theme-secondary-400: #26C6DA;
+  --theme-secondary-300: #4DD0E1;
+  --theme-secondary-200: #80DEEA;
+  --theme-secondary-100: #E0F7FA;
+
+  --theme-neutral-950: #111827;
+  --theme-neutral-900: #1F2937;
+  --theme-neutral-800: #374151;
+  --theme-neutral-700: #4B5563;
+  --theme-neutral-600: #6B7280;
+  --theme-neutral-500: #9CA3AF;
+  --theme-neutral-400: #D1D5DB;
+  --theme-neutral-300: #E5E7EB;
+  --theme-neutral-200: #F3F4F6;
+  --theme-neutral-100: #F9FAFB;
+  --theme-neutral-50: #FFFFFF;
+}
+
+[data-theme="forest"] {
+  /* Option E: Forest Green & Warm Sand */
+  --theme-primary-950: #0D1F15;
+  --theme-primary-900: #1A3E2A;
+  --theme-primary-800: #265C3F;
+  --theme-primary-700: #337B54;
+  --theme-primary-600: #3D9465;
+  --theme-primary-500: #4CAF50;
+  --theme-primary-400: #66BB6A;
+  --theme-primary-100: #C8E6C9;
+  --theme-primary-50: #E8F5E9;
+
+  --theme-secondary-600: #A1887F;
+  --theme-secondary-500: #8D6E63;
+  --theme-secondary-400: #BCAAA4;
+  --theme-secondary-300: #D7CCC8;
+  --theme-secondary-200: #EFEBE9;
+  --theme-secondary-100: #F5F5F5;
+
+  --theme-neutral-950: #1C1918;
+  --theme-neutral-900: #2F2A28;
+  --theme-neutral-800: #463F3C;
+  --theme-neutral-700: #5F5651;
+  --theme-neutral-600: #766D67;
+  --theme-neutral-500: #8C837C;
+  --theme-neutral-400: #A89F98;
+  --theme-neutral-300: #C4BBB4;
+  --theme-neutral-200: #DDD6CF;
+  --theme-neutral-100: #EFECE9;
+  --theme-neutral-50: #FAF9F8;
+}
+
 /* ---- Custom Theme Configuration ---- */
 @theme {
-  /* Brand Colors - Deep Pine (Replaces Emerald/Navy) */
-  --color-emerald-950: #0A1C16;
-  --color-emerald-900: #112A22;
-  --color-emerald-800: #183D31;
-  --color-emerald-700: #1C4D3B;
-  --color-emerald-600: #24654D;
-  --color-emerald-500: #2D8060;
-  --color-emerald-400: #42A680;
-  --color-emerald-100: #D1F2E6;
-  --color-emerald-50: #EEFAF5;
+  /* Brand Colors */
+  --color-emerald-950: var(--theme-primary-950);
+  --color-emerald-900: var(--theme-primary-900);
+  --color-emerald-800: var(--theme-primary-800);
+  --color-emerald-700: var(--theme-primary-700);
+  --color-emerald-600: var(--theme-primary-600);
+  --color-emerald-500: var(--theme-primary-500);
+  --color-emerald-400: var(--theme-primary-400);
+  --color-emerald-100: var(--theme-primary-100);
+  --color-emerald-50: var(--theme-primary-50);
 
-  /* Secondary Colors - Aged Brass (Replaces Gold/Red) */
-  --color-gold-600: #98753C;
-  --color-gold-500: #B68F4C;
-  --color-gold-400: #CDA762;
-  --color-gold-300: #E1C184;
-  --color-gold-200: #F1DEAF;
-  --color-gold-100: #FDF2D9;
+  /* Secondary Colors */
+  --color-gold-600: var(--theme-secondary-600);
+  --color-gold-500: var(--theme-secondary-500);
+  --color-gold-400: var(--theme-secondary-400);
+  --color-gold-300: var(--theme-secondary-300);
+  --color-gold-200: var(--theme-secondary-200);
+  --color-gold-100: var(--theme-secondary-100);
 
-  /* Neutral Palette - Stone/Limestone (Replaces Indigo) */
-  --color-slate-950: #1A1A19;
-  --color-slate-900: #2E2D2B;
-  --color-slate-800: #454442;
-  --color-slate-700: #5C5A58;
-  --color-slate-600: #73716E;
-  --color-slate-500: #8B8884;
-  --color-slate-400: #A6A39E;
-  --color-slate-300: #C1BEB9;
-  --color-slate-200: #DBD8D3;
-  --color-slate-100: #EAE7E0;
-  --color-slate-50: #FAFAF9;
+  /* Neutral Palette */
+  --color-slate-950: var(--theme-neutral-950);
+  --color-slate-900: var(--theme-neutral-900);
+  --color-slate-800: var(--theme-neutral-800);
+  --color-slate-700: var(--theme-neutral-700);
+  --color-slate-600: var(--theme-neutral-600);
+  --color-slate-500: var(--theme-neutral-500);
+  --color-slate-400: var(--theme-neutral-400);
+  --color-slate-300: var(--theme-neutral-300);
+  --color-slate-200: var(--theme-neutral-200);
+  --color-slate-100: var(--theme-neutral-100);
+  --color-slate-50: var(--theme-neutral-50);
 
   /* Typography */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'DM Serif Display', Georgia, serif;
 
-  /* Shadows - Elegant Crisp Shadows */
-  --shadow-soft: 0 4px 20px -5px rgba(26, 26, 25, 0.05);
-  --shadow-card: 0 10px 40px -10px rgba(26, 26, 25, 0.08);
-  --shadow-elevated: 0 20px 60px -15px rgba(26, 26, 25, 0.12);
-  --shadow-glow-green: 0 0 30px rgba(45, 128, 96, 0.2);
-  --shadow-glow-gold: 0 0 30px rgba(182, 143, 76, 0.25);
+  /* Shadows - Bouncy Cartoonish Shadows */
+  --shadow-soft: var(--base-shadow-soft);
+  --shadow-card: var(--base-shadow-card);
+  --shadow-elevated: var(--base-shadow-elevated);
+  --shadow-glow-green: var(--base-shadow-glow-green);
+  --shadow-glow-gold: var(--base-shadow-glow-gold);
 
   /* Animations */
   --animate-float: float 6s ease-in-out infinite;
@@ -87,14 +298,14 @@ body {
 
 /* ---- Utility Classes ---- */
 .text-gradient-green {
-  background: linear-gradient(135deg, var(--color-emerald-700), var(--color-emerald-500));
+  background: linear-gradient(135deg, var(--color-emerald-600), var(--color-gold-500));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .text-gradient-gold {
-  background: linear-gradient(135deg, var(--color-gold-600), var(--color-gold-400));
+  background: linear-gradient(135deg, var(--color-gold-500), #FFCE47);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -108,11 +319,11 @@ body {
   background: linear-gradient(180deg, var(--color-slate-50) 0%, white 50%, var(--color-slate-50) 100%);
 }
 
-/* Scholarly Card (Crisp, elegant, non-glassy) */
+/* Playful Card (Soft, bubbly) */
 .glass-card {
   background: #ffffff;
-  border: 1px solid var(--color-slate-200);
-  border-radius: 4px; /* Sharp, structured corners */
+  border: 2px solid var(--color-emerald-100);
+  border-radius: 24px; /* Playful, round corners */
   box-shadow: var(--shadow-card);
 }
 
@@ -147,10 +358,10 @@ button, a[id*="btn"] {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-emerald-600);
-  border-radius: 4px;
+  background: var(--color-emerald-500);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-emerald-700);
+  background: var(--color-emerald-600);
 }

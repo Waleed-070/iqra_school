@@ -11,10 +11,19 @@ const createStars = (n) => {
 };
 
 const StarryBackground = () => {
-  // Generate static strings once per mount to prevent jittering on re-renders
-  const shadowsSmall = useMemo(() => createStars(700), []);
-  const shadowsMedium = useMemo(() => createStars(200), []);
-  const shadowsBig = useMemo(() => createStars(100), []);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Drastically reduce star counts on mobile to save GPU cycles
+  const shadowsSmall = useMemo(() => createStars(isMobile ? 150 : 700), [isMobile]);
+  const shadowsMedium = useMemo(() => createStars(isMobile ? 50 : 200), [isMobile]);
+  const shadowsBig = useMemo(() => createStars(isMobile ? 10 : 100), [isMobile]);
 
   return (
     <StyledWrapper 
@@ -43,7 +52,7 @@ const StyledWrapper = styled.div`
   .starry-container {
     height: 100%;
     width: 100%;
-    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    background: radial-gradient(ellipse at bottom, var(--color-gold-600) 0%, var(--color-emerald-900) 50%, var(--color-emerald-950) 100%);
     overflow: hidden;
     position: absolute;
   }
@@ -109,6 +118,17 @@ const StyledWrapper = styled.div`
     box-shadow: ${props => props.$shadowsBig};
     will-change: transform;
     transform: translateZ(0);
+  }
+
+  /* On mobile, completely hide the heaviest star layer to save performance */
+  @media (max-width: 768px) {
+    #stars3, #stars3:after {
+      display: none !important;
+      animation: none !important;
+    }
+    #stars2, #stars2:after {
+      opacity: 0.5;
+    }
   }
 
   @keyframes animStar {

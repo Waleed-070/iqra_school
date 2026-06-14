@@ -9,6 +9,8 @@ import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import LoadingScreen from './components/LoadingScreen';
 import ScrollToTop from './components/ScrollToTop';
+import { TransitionProvider } from './context/TransitionContext';
+import TransitionOverlay from './components/TransitionOverlay';
 import Home from './pages/Home';
 import About from './pages/About';
 import Admissions from './pages/Admissions';
@@ -26,13 +28,15 @@ function App() {
       
       {/* The main app content (hidden behind loader until it finishes) */}
       <Router>
-        <ScrollToTop />
-        <CustomCursor />
-        {/* Persistent navigation across all pages */}
-        <Navbar />
+        <TransitionProvider>
+          <ScrollToTop />
+          <CustomCursor />
+          <TransitionOverlay />
+          {/* Persistent navigation across all pages */}
+          <Navbar />
 
-        {/* Page routes */}
-        <main>
+          {/* Page routes */}
+          <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -45,6 +49,7 @@ function App() {
 
         {/* Persistent footer across all pages */}
         <Footer />
+        </TransitionProvider>
       </Router>
     </>
   );

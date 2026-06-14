@@ -1,16 +1,9 @@
-import { Link } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
+import TransitionLink from '../components/TransitionLink';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight,
   Play,
   Star,
-  BookOpen,
-  Users,
-  Lightbulb,
-  Heart,
-  GraduationCap,
-  Globe,
-  Award,
   Sparkles,
   ChevronRight,
 } from 'lucide-react';
@@ -24,9 +17,33 @@ import AnimatedHoverText from '../components/AnimatedHoverText';
 import AnimatedArrow from '../components/AnimatedArrow';
 import StarryBackground from '../components/StarryBackground';
 
+const GifPlayer = ({ src, alt, className }) => {
+  const canvasRef = useRef(null);
+  
+  useEffect(() => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      if (canvasRef.current) {
+        const ctx = canvasRef.current.getContext('2d');
+        canvasRef.current.width = img.width;
+        canvasRef.current.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+      }
+    };
+  }, [src]);
+
+  return (
+    <>
+      <canvas ref={canvasRef} className={`${className} block group-hover:hidden`} />
+      <img src={src} alt={alt} className={`${className} hidden group-hover:block`} />
+    </>
+  );
+};
+
 const pillars = [
   {
-    icon: Heart,
+    icon: '/icons/valentines-day.gif',
     title: 'Tarbiyah',
     description:
       'A nurturing approach to character development rooted in Islamic values, fostering integrity, empathy, and spiritual awareness in every student.',
@@ -35,7 +52,7 @@ const pillars = [
     shadow: 'shadow-[0_4px_20px_rgba(0,99,158,0.3)]',
   },
   {
-    icon: BookOpen,
+    icon: '/icons/spell-book.gif',
     title: 'Knowledge',
     description:
       'A rigorous academic curriculum that cultivates critical thinking, creativity, and a lifelong love for learning across all disciplines.',
@@ -44,7 +61,7 @@ const pillars = [
     shadow: 'shadow-[0_4px_20px_rgba(203,161,53,0.3)]',
   },
   {
-    icon: Lightbulb,
+    icon: '/icons/idea.gif',
     title: 'Innovation',
     description:
       'Embracing modern educational technology and teaching methods to prepare students for the challenges and opportunities of tomorrow.',
@@ -53,7 +70,7 @@ const pillars = [
     shadow: 'shadow-[0_4px_20px_rgba(0,58,93,0.3)]',
   },
   {
-    icon: Globe,
+    icon: '/icons/global-connection.gif',
     title: 'Community',
     description:
       'Building a strong, connected community of learners, parents, and educators who support each other in the pursuit of excellence.',
@@ -64,10 +81,10 @@ const pillars = [
 ];
 
 const stats = [
-  { value: '500+', label: 'Students Enrolled', icon: Users },
-  { value: '50+', label: 'Expert Faculty', icon: GraduationCap },
-  { value: '95%', label: 'Satisfaction Rate', icon: Star },
-  { value: '15+', label: 'Years of Excellence', icon: Award },
+  { value: '500+', label: 'Students Enrolled', icon: '/icons/team.gif' },
+  { value: '50+', label: 'Expert Faculty', icon: '/icons/education.gif' },
+  { value: '95%', label: 'Satisfaction Rate', icon: '/icons/favorite.gif' },
+  { value: '15+', label: 'Years of Excellence', icon: '/icons/award.gif' },
 ];
 
 const testimonials = [
@@ -216,7 +233,6 @@ function Home() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {pillars.map((pillar, index) => {
-              const Icon = pillar.icon;
               return (
                 <AnimatedSection key={pillar.title} delay={index * 0.1}>
                   <div
@@ -224,8 +240,8 @@ function Home() {
                     className="group relative bg-white rounded-3xl p-8 border border-slate-100 h-full overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-out shadow-soft"
                   >
                     
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${pillar.gradient} flex items-center justify-center mb-6 ${pillar.shadow} group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative z-10`}>
-                      <Icon className="w-7 h-7 text-white" />
+                    <div className={`w-14 h-14 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative z-10`}>
+                      <GifPlayer src={pillar.icon} alt={pillar.title} className="w-14 h-14 object-contain" />
                     </div>
 
                     
@@ -256,12 +272,11 @@ function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => {
-              const Icon = stat.icon;
               return (
                 <AnimatedSection key={stat.label} delay={index * 0.1}>
-                  <div className="text-center">
-                    <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center mx-auto mb-4 border border-white/10">
-                      <Icon className="w-7 h-7 text-gold-400" />
+                  <div className="text-center group cursor-default">
+                    <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                      <GifPlayer src={stat.icon} alt={stat.label} className="w-16 h-16 object-contain invert mix-blend-screen opacity-90" />
                     </div>
                     <AnimatedCounter value={stat.value} className="text-3xl sm:text-4xl font-bold text-white mb-2" />
                     <p className="text-sm text-emerald-300/60">{stat.label}</p>
@@ -407,19 +422,19 @@ function Home() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-4">
-              <Link
+              <TransitionLink
                 to="/admissions"
                 className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-gold-500 to-gold-400 text-emerald-950 font-bold rounded-2xl shadow-lg hover:shadow-glow-gold hover:scale-105 transition-all duration-300"
               >
                 <AnimatedHoverText text="Begin Enrollment" color="#022c22" />
                 <AnimatedArrow color="#022c22" shadowColor="rgba(2, 44, 34, 0.3)" />
-              </Link>
-              <Link
+              </TransitionLink>
+              <TransitionLink
                 to="/contact"
                 className="group inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300"
               >
                 <AnimatedHoverText text="Contact Us" color="white" />
-              </Link>
+              </TransitionLink>
             </div>
           </AnimatedSection>
         </div>

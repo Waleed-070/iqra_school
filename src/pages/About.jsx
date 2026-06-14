@@ -1,51 +1,66 @@
-/**
- * About.jsx - About page for Iqra Virtual School.
- * Features school overview, mission/vision, timeline, and values.
- */
+
+import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Target,
-  Eye,
-  BookOpen,
-  Heart,
-  Shield,
-  Users,
-  Star,
-  Compass,
   Sparkles,
+  BookOpen,
 } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';
 import AnimatedSection from '../components/AnimatedSection';
 
+const GifPlayer = ({ src, alt, className }) => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      if (canvasRef.current) {
+        const ctx = canvasRef.current.getContext('2d');
+        canvasRef.current.width = img.width;
+        canvasRef.current.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+      }
+    };
+  }, [src]);
+
+  return (
+    <>
+      <canvas ref={canvasRef} className={`${className} block group-hover:hidden`} />
+      <img src={src} alt={alt} className={`${className} hidden group-hover:block`} />
+    </>
+  );
+};
+
 /* ---- Core Values Data ---- */
 const values = [
   {
-    icon: Heart,
+    icon: '/icons/valentines-day.gif',
     title: 'Ihsan (Excellence)',
     description: 'Striving for the highest standard in everything we do, from teaching to character development.',
   },
   {
-    icon: Shield,
+    icon: '/icons/shield.gif',
     title: 'Amanah (Trust)',
     description: 'Upholding the sacred trust placed in us by families to nurture and educate their children.',
   },
   {
-    icon: Users,
+    icon: '/icons/team.gif',
     title: 'Ukhuwwah (Brotherhood)',
     description: 'Fostering a sense of unity and belonging within our diverse, global school community.',
   },
   {
-    icon: Compass,
+    icon: '/icons/compass.gif',
     title: 'Hikmah (Wisdom)',
     description: 'Teaching students not just to know, but to understand, reflect, and apply knowledge wisely.',
   },
   {
-    icon: Star,
+    icon: '/icons/favorite.gif',
     title: 'Ikhlas (Sincerity)',
     description: 'Pursuing education with pure intentions and a genuine desire to benefit humanity.',
   },
   {
-    icon: BookOpen,
+    icon: '/icons/spell-book.gif',
     title: 'Ilm (Knowledge)',
     description: 'Cultivating a lifelong love of learning that encompasses both sacred and secular knowledge.',
   },
@@ -64,11 +79,7 @@ const timeline = [
 function About() {
   return (
     <div className="overflow-hidden">
-      {/* ================================================================
-          PAGE HERO
-          ================================================================ */}
       <section className="relative bg-gradient-hero pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
-        {/* Background decoration */}
         <div className="absolute inset-0 opacity-[0.03] grid-pattern" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-3xl" />
 
@@ -160,9 +171,9 @@ function About() {
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Mission Card */}
             <AnimatedSection delay={0}>
-              <div className="bg-[#e0e0e0] rounded-[50px] p-10 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-600 flex items-center justify-center mb-7 shadow-md">
-                  <Target className="w-8 h-8 text-white" />
+              <div className="group bg-[#e0e0e0] rounded-[50px] p-10 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full">
+                <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-7 shadow-md">
+                  <GifPlayer src="/icons/mission.gif" alt="Mission" className="w-10 h-10 object-contain mix-blend-multiply" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-4">Our Mission</h3>
                 <p className="text-slate-500 leading-relaxed">
@@ -175,9 +186,9 @@ function About() {
 
             {/* Vision Card */}
             <AnimatedSection delay={0.15}>
-              <div className="bg-[#e0e0e0] rounded-[50px] p-10 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-gold-500 to-gold-400 flex items-center justify-center mb-7 shadow-md">
-                  <Eye className="w-8 h-8 text-white" />
+              <div className="group bg-[#e0e0e0] rounded-[50px] p-10 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full">
+                <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-7 shadow-md">
+                  <GifPlayer src="/icons/protection.gif" alt="Vision" className="w-10 h-10 object-contain mix-blend-multiply" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-4">Our Vision</h3>
                 <p className="text-slate-500 leading-relaxed">
@@ -204,12 +215,11 @@ function About() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {values.map((value, index) => {
-              const Icon = value.icon;
               return (
                 <AnimatedSection key={value.title} delay={index * 0.08}>
                   <div className="group relative bg-[#e0e0e0] rounded-[50px] p-7 border-none shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] hover:-translate-y-2 transition-all duration-500 h-full">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center mb-5 group-hover:bg-gradient-to-br group-hover:from-emerald-600 group-hover:to-emerald-500 transition-all duration-300">
-                      <Icon className="w-6 h-6 text-emerald-600 group-hover:text-white transition-colors duration-300" />
+                    <div className="w-14 h-14 flex items-center justify-center mb-5">
+                      <GifPlayer src={value.icon} alt={value.title} className="w-14 h-14 object-contain mix-blend-multiply" />
                     </div>
                     <h3 className="text-lg font-bold text-slate-900 mb-2">{value.title}</h3>
                     <p className="text-sm text-slate-500 leading-relaxed">{value.description}</p>
@@ -249,13 +259,11 @@ function About() {
                   delay={index * 0.1}
                   direction={index % 2 === 0 ? 'left' : 'right'}
                 >
-                  <div className={`relative flex items-start gap-8 ${
-                    index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}>
-                    {/* Content */}
-                    <div className={`flex-1 ml-16 md:ml-0 ${
-                      index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'
+                  <div className={`relative flex items-start gap-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                     }`}>
+                    {/* Content */}
+                    <div className={`flex-1 ml-16 md:ml-0 ${index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'
+                      }`}>
                       <span className="inline-block px-3 py-1 bg-gold-500/20 text-gold-400 text-xs font-bold rounded-full mb-2">
                         {item.year}
                       </span>

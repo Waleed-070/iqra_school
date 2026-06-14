@@ -1,8 +1,11 @@
-import { Suspense, useState, useEffect, useRef } from 'react';
+import { Suspense, useState, useEffect, useRef, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { ContactShadows, Environment, OrbitControls } from '@react-three/drei';
+import { ContactShadows, Environment, OrbitControls, useProgress } from '@react-three/drei';
 import { useInView } from 'framer-motion';
 import { Avatar } from './Avatar';
+import { useTransition } from '../context/TransitionContext';
+
+// We no longer need ModelLoaderNotifier, as we rely on the Avatar's onFirstFrame callback
 
 export default function Hero3DContainer() {
   const containerRef = useRef(null);
@@ -10,32 +13,52 @@ export default function Hero3DContainer() {
   const [animation, setAnimation] = useState("Standing");
   const [isMobile, setIsMobile] = useState(false);
   const waveTimeout = useRef(null);
+  const { transitionState, setIsHomeModelLoaded } = useTransition();
+  const hasLoadedRef = useRef(false);
+
+  const handleModelLoaded = useCallback(() => {
+    if (hasLoadedRef.current) return;
+    hasLoadedRef.current = true;
+
+    // 1. The Avatar has officially rendered its very first frame (visibly in Standing pose).
+    // We give it an extra 400ms just to let the scene settle gracefully.
+    setTimeout(() => {
+      // 2. Start waving while the transition bars are still covering the screen!
+      setAnimation("Waving");
+      
+      // 3. Give the arm 300ms to lift into the air (accounts for the crossfade)
+      setTimeout(() => {
+        // 4. Retract the transition bars! The user will see the character mid-wave.
+        setIsHomeModelLoaded(true);
+
+        // 5. Return to Standing (idle) after waving
+        waveTimeout.current = setTimeout(() => {
+          setAnimation("Standing");
+          waveTimeout.current = null;
+        }, 3500);
+
+      }, 300);
+    }, 400);
+  }, [setIsHomeModelLoaded]);
 
   const triggerWave = () => {
-    // Clear any existing timeout so we don't switch back to Standing too early
     if (waveTimeout.current) clearTimeout(waveTimeout.current);
 
     setAnimation("Waving");
 
-    // Return to Standing after waving for a few seconds
     waveTimeout.current = setTimeout(() => {
       setAnimation("Standing");
       waveTimeout.current = null;
     }, 3500);
   };
 
+  // Handle mobile screen size check
   useEffect(() => {
-    // Initial wave 2 seconds after load
-    const startWave = setTimeout(() => {
-      triggerWave();
-    }, 2000);
-
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
     return () => {
-      clearTimeout(startWave);
       if (waveTimeout.current) clearTimeout(waveTimeout.current);
       window.removeEventListener('resize', checkMobile);
     };
@@ -59,8 +82,8 @@ export default function Hero3DContainer() {
       </div>
 
       <Canvas 
-        dpr={[1, 1.5]}
-        frameloop={isInView ? 'always' : 'demand'}
+        dpr={isMobile ? [1, 1] : [1, 1.5]}
+        frameloop={isInView || transitionState !== 'idle' ? 'always' : 'demand'}
         camera={{ position: [0, 0.5, 3.5], fov: 40, near: 0.1, far: 1000 }}
         style={{ touchAction: 'pan-y' }}
       >
@@ -68,6 +91,7 @@ export default function Hero3DContainer() {
           <OrbitControls target={[0, 0, 0]} enableZoom={false} enablePan={false} />
         )}
         <Environment preset="city" />
+        {/* Removed ModelLoaderNotifier */}
 
         <Suspense fallback={null}>
           <group
@@ -76,7 +100,7 @@ export default function Hero3DContainer() {
             onPointerOver={() => document.body.style.cursor = 'pointer'}
             onPointerOut={() => document.body.style.cursor = 'auto'}
           >
-            <Avatar animation={animation} scale={1.2} />
+            <Avatar animation={animation} scale={1.2} onFirstFrame={handleModelLoaded} />
           </group>
         </Suspense>
       </Canvas>

@@ -3,7 +3,7 @@
  * Features a multi-column layout with brand info, quick links,
  * contact details, and a newsletter signup.
  */
-import { Link } from 'react-router-dom';
+import TransitionLink from './TransitionLink';
 import { BookOpen, Mail, Phone, MapPin, Heart, ArrowUpRight, Send } from 'lucide-react';
 import styled from 'styled-components';
 
@@ -181,13 +181,13 @@ function Footer() {
                 { name: 'Gallery', path: '/gallery' },
               ].map((link) => (
                 <li key={link.name}>
-                  <Link
+                  <TransitionLink
                     to={link.path}
                     className="text-emerald-300/70 hover:text-white text-sm flex items-center gap-2 group transition-colors duration-200"
                   >
                     <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                     {link.name}
-                  </Link>
+                  </TransitionLink>
                 </li>
               ))}
             </ul>
