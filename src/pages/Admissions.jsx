@@ -29,27 +29,27 @@ import AnimatedSection from '../components/AnimatedSection';
 /* ---- Onboarding Steps Data ---- */
 const onboardingSteps = [
   {
-    icon: FileText,
+    iconSrc: '/icons/document.gif',
     title: 'Submit Application',
     description: 'Complete the online registration form with student and parent information.',
   },
   {
-    icon: ClipboardCheck,
+    iconSrc: '/icons/resume.gif',
     title: 'Document Review',
     description: 'Our admissions team reviews your application and required documents.',
   },
   {
-    icon: Users,
+    iconSrc: '/icons/team.gif',
     title: 'Family Interview',
     description: 'A brief virtual interview to get to know your family and answer questions.',
   },
   {
-    icon: BookOpen,
+    iconSrc: '/icons/spell-book.gif',
     title: 'Placement Assessment',
     description: 'A friendly academic assessment to determine the best grade placement.',
   },
   {
-    icon: CheckCircle2,
+    iconSrc: '/icons/check.gif',
     title: 'Enrollment Confirmation',
     description: 'Receive your acceptance letter and complete the enrollment process.',
   },
@@ -101,9 +101,7 @@ function Admissions() {
 
   return (
     <div className="overflow-hidden">
-      {/* ================================================================
-          PAGE HERO
-          ================================================================ */}
+      
       <section className="relative bg-gradient-hero pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] grid-pattern" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/10 rounded-full blur-3xl" />
@@ -172,11 +170,15 @@ function Admissions() {
                           {isCompleted ? (
                             <CheckCircle2 className="w-7 h-7 text-emerald-600" />
                           ) : (
-                            <Icon className={`w-7 h-7 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                            <img 
+                              src={step.iconSrc} 
+                              alt={step.title} 
+                              className={`w-8 h-8 object-contain ${isActive ? 'mix-blend-screen' : 'mix-blend-multiply opacity-50'}`} 
+                              style={isActive ? { filter: 'invert(1)' } : {}}
+                            />
                           )}
                         </div>
 
-                        {/* Connector line */}
                         {index < onboardingSteps.length - 1 && (
                           <div className={`absolute left-1/2 -translate-x-1/2 top-full w-px h-6 ${
                             isCompleted ? 'bg-emerald-300' : 'bg-slate-200'
@@ -184,7 +186,6 @@ function Admissions() {
                         )}
                       </div>
 
-                      {/* Content */}
                       <div className="flex-1 pt-1">
                         <div className="flex items-center gap-3 mb-1">
                           <span className={`text-xs font-bold uppercase tracking-wider ${

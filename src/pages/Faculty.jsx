@@ -1,7 +1,3 @@
-/**
- * Faculty.jsx - Faculty page for Iqra Virtual School.
- * Displays an elegant grid of staff profile cards with hover transitions.
- */
 import { motion } from 'framer-motion';
 import { Mail, Sparkles, BookOpen, Award, ExternalLink } from 'lucide-react';
 import SectionHeading from '../components/SectionHeading';

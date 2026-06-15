@@ -30,15 +30,25 @@ export default function CustomCursor() {
       const target = e.target;
       if (!target) return;
       
+      const tagName = target.tagName?.toLowerCase();
+      const textTags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'li', 'label', 'strong', 'em', 'b', 'i'];
+      const iconTags = ['img', 'svg', 'path', 'g', 'rect', 'circle', 'polyline', 'polygon', 'line', 'canvas'];
+      
       const isInteractive = 
-        target.tagName?.toLowerCase() === 'a' ||
-        target.tagName?.toLowerCase() === 'button' ||
-        target.tagName?.toLowerCase() === 'input' ||
-        target.tagName?.toLowerCase() === 'textarea' ||
-        target.tagName?.toLowerCase() === 'select' ||
+        tagName === 'a' ||
+        tagName === 'button' ||
+        tagName === 'input' ||
+        tagName === 'textarea' ||
+        tagName === 'select' ||
         target.closest('a') ||
         target.closest('button') ||
-        window.getComputedStyle(target).cursor === 'pointer';
+        target.closest('li.icon') ||
+        target.closest('.rounded-full') ||
+        target.closest('.rounded-2xl') ||
+        textTags.includes(tagName) ||
+        iconTags.includes(tagName) ||
+        window.getComputedStyle(target).cursor === 'pointer' ||
+        window.getComputedStyle(target).cursor === 'text';
 
       setIsHovering(!!isInteractive);
     };
@@ -59,21 +69,29 @@ export default function CustomCursor() {
     };
   }, [cursorX, cursorY, isTouchDevice]);
 
-  // Hide default cursor globally, except over iframes/canvas where custom cursor might lose track
+  // Hide default cursor globally and prevent text selection to enhance the native feel
   useEffect(() => {
     if (isTouchDevice) return;
 
-    document.body.style.cursor = 'none';
-    const interactiveElements = document.querySelectorAll('a, button');
-    interactiveElements.forEach(el => {
-      el.style.cursor = 'none';
-    });
+    const style = document.createElement('style');
+    style.innerHTML = `
+      * {
+        cursor: none !important;
+      }
+      body {
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      input, textarea {
+        -webkit-user-select: auto;
+        user-select: auto;
+        cursor: auto !important;
+      }
+    `;
+    document.head.appendChild(style);
 
     return () => {
-      document.body.style.cursor = 'auto';
-      interactiveElements.forEach(el => {
-        el.style.cursor = 'pointer';
-      });
+      document.head.removeChild(style);
     };
   }, [isTouchDevice]);
 
@@ -94,15 +112,17 @@ export default function CustomCursor() {
       
       {/* Larger trailing ring/blob */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border-2 border-emerald-400/50 rounded-full pointer-events-none"
+        className="fixed top-0 left-0 w-8 h-8 border-2 rounded-full pointer-events-none"
         style={{
           x: cursorX,
           y: cursorY,
+          backdropFilter: isHovering ? 'invert(1) hue-rotate(180deg)' : 'none',
+          WebkitBackdropFilter: isHovering ? 'invert(1) hue-rotate(180deg)' : 'none',
         }}
         animate={{
-          scale: isHovering ? 1.8 : 1,
-          backgroundColor: isHovering ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0)",
-          borderColor: isHovering ? "rgba(16, 185, 129, 0.8)" : "rgba(16, 185, 129, 0.5)"
+          scale: isHovering ? 2 : 1,
+          backgroundColor: isHovering ? "rgba(255, 255, 255, 0.2)" : "rgba(16, 185, 129, 0)",
+          borderColor: isHovering ? "rgba(255, 255, 255, 0.8)" : "rgba(16, 185, 129, 0.5)"
         }}
         transition={{ scale: { type: "spring", stiffness: 300, damping: 20 } }}
       />

@@ -260,23 +260,20 @@ function Home() {
         </div>
       </section>
 
-      {/* ================================================================
-          STATS SECTION
-          ================================================================ */}
+ 
       <section id="stats" className="py-20 bg-emerald-950 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 opacity-5 grid-pattern" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-600/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl" />
+         <div className="absolute inset-0 opacity-5 grid-pattern" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-600/20 rounded-full blur-3xl transform-gpu translate-z-0" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl transform-gpu translate-z-0" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => {
               return (
-                <AnimatedSection key={stat.label} delay={index * 0.1}>
+                <AnimatedSection key={stat.label} delay={index * 0.1} className="mix-blend-screen">
                   <div className="text-center group cursor-default">
                     <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                      <GifPlayer src={stat.icon} alt={stat.label} className="w-16 h-16 object-contain invert mix-blend-screen opacity-90" />
+                      <GifPlayer src={stat.icon} alt={stat.label} className="w-16 h-16 object-contain invert opacity-90" />
                     </div>
                     <AnimatedCounter value={stat.value} className="text-3xl sm:text-4xl font-bold text-white mb-2" />
                     <p className="text-sm text-emerald-300/60">{stat.label}</p>
@@ -291,7 +288,7 @@ function Home() {
        <section id="why-choose-us" className="py-24 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <AnimatedSection direction="left">
+            <div>
               <div className="relative">
                 <div className="aspect-square rounded-3xl bg-linear-to-br from-emerald-50 to-emerald-100 border border-emerald-200/50 flex items-center justify-center overflow-hidden">
                   <div className="absolute inset-0 opacity-10">
@@ -307,7 +304,7 @@ function Home() {
                   
                 </div>
               </div>
-            </AnimatedSection>
+            </div>
 
             <AnimatedSection direction="right">
               <SectionHeading

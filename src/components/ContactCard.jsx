@@ -1,13 +1,66 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+const HoverGif = ({ src, alt, className, style, isHovered }) => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+      }
+    };
+  }, [src]);
+
+  // We restart the GIF on hover by appending a timestamp to the src so it plays from the beginning!
+  const gifSrc = isHovered ? `${src}?t=${Date.now()}` : src;
+
+  return (
+    <div className={className} style={{ ...style, position: 'relative' }}>
+      {/* Static Canvas showing the first frame */}
+      <canvas 
+        ref={canvasRef} 
+        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, opacity: isHovered ? 0 : 1 }} 
+      />
+      {/* Animated GIF that plays on hover */}
+      <img 
+        src={gifSrc} 
+        alt={alt} 
+        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, opacity: isHovered ? 1 : 0 }} 
+      />
+    </div>
+  );
+};
+
 const ContactCard = ({ detail }) => {
+  const [isHovered, setIsHovered] = useState(false);
   const Icon = detail.icon;
+  
   return (
     <StyledWrapper>
-      <div className="card">
+      <div 
+        className="card"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div className={`icon-container bg-gradient-to-br ${detail.gradient}`}>
-          <Icon className="w-7 h-7 text-white" />
+          {detail.iconSrc ? (
+            <HoverGif 
+              src={detail.iconSrc} 
+              alt={detail.title} 
+              isHovered={isHovered}
+              className="w-10 h-10 object-contain mix-blend-screen" 
+              style={{ filter: 'invert(1)' }}
+            />
+          ) : (
+            <detail.icon className="w-7 h-7 text-white" />
+          )}
         </div>
         <h3 className="title">{detail.title}</h3>
         <p className="primary-text">{detail.primary}</p>

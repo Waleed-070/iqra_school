@@ -10,19 +10,18 @@ import { SkeletonUtils } from "three-stdlib";
 export function Avatar(props) {
   const { animation = "Standing", onFirstFrame, visible: externalVisible = true, ...restProps } = props;
   const group = useRef();
-  const [hasRenderedFirstFrame, setHasRenderedFirstFrame] = React.useState(false);
+  const hasCalledFirstFrame = useRef(false);
 
-  // We keep the mesh completely invisible until the very first render frame completes.
-  // By this time, the animation mixer has fully engaged, making a T-pose mathematically impossible to see.
+  // Notify parent that the avatar has rendered, which clears the page transition loader
   useFrame(() => {
-    if (!hasRenderedFirstFrame) {
-      setHasRenderedFirstFrame(true);
+    if (!hasCalledFirstFrame.current) {
+      hasCalledFirstFrame.current = true;
       if (onFirstFrame) onFirstFrame();
     }
   });
-  
-  // Only visible if both the first frame has rendered AND the parent component wants it visible
-  const isActuallyVisible = hasRenderedFirstFrame && externalVisible;
+
+  // Avatar is visible exactly when externalVisible says so
+  const isActuallyVisible = externalVisible;
   
   // Load models and animations from public directory
   const { scene } = useGLTF("/models/646d9dcdc8a5f5bddbfac913.glb");

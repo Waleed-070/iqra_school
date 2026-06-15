@@ -5,7 +5,7 @@ export default function LoadingScreen({ onComplete }) {
   const [zoomIn, setZoomIn] = useState(false);
 
   useEffect(() => {
-    // Show the logo normally for 2 seconds, then trigger the massive zoom in
+    // Show the logo and animated text for 4 seconds, then trigger the massive zoom in
     const timer = setTimeout(() => {
       setZoomIn(true);
       
@@ -14,7 +14,7 @@ export default function LoadingScreen({ onComplete }) {
         if (onComplete) onComplete();
       }, 1500);
       
-    }, 2000);
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [onComplete]);

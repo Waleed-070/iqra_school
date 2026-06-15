@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { ContactShadows, Environment, OrbitControls, useGLTF, Center, useTexture, Text } from '@react-three/drei';
+import { ContactShadows, Environment, OrbitControls, useGLTF, Center, useTexture, Text, Html } from '@react-three/drei';
 import { useInView } from 'framer-motion';
 import { Avatar } from './Avatar';
 
@@ -39,6 +39,19 @@ function Desk({ isZoomed, setIsZoomed, isMobile, ...props }) {
   const { scene } = useGLTF('/models/pc_desk.glb');
   const logoTexture = useTexture('/ivsl3-logo.png');
   const [hovered, setHovered] = useState(false);
+  const [showIframe, setShowIframe] = useState(false);
+
+  useEffect(() => {
+    let timeout;
+    if (isZoomed) {
+      timeout = setTimeout(() => {
+        setShowIframe(true);
+      }, 1500); // Wait 1.5 seconds for camera to settle
+    } else {
+      setShowIframe(false);
+    }
+    return () => clearTimeout(timeout);
+  }, [isZoomed]);
 
   return (
     <group {...props}>
@@ -66,27 +79,52 @@ function Desk({ isZoomed, setIsZoomed, isMobile, ...props }) {
             setHovered(false);
           }}
         >
-          <mesh>
+          {/* White screen background */}
+          <mesh visible={!showIframe}>
             <planeGeometry args={[0.85, 0.35]} />
             <meshBasicMaterial color="#F0F0F0" />
           </mesh>
           
-          <mesh position={[0, 0, 0.001]} scale={1.15}>
+          {/* Logo image */}
+          <mesh position={[0, 0, 0.001]} scale={1.15} visible={!showIframe}>
             <planeGeometry args={[0.25, 0.25]} />
             <meshBasicMaterial map={logoTexture} transparent depthWrite={false} />
           </mesh>
 
           {/* Hover Tooltip (WebGL) */}
           {hovered && !isMobile && !isZoomed && (
-            <group position={[0, 0, 0.02]}>
-              <mesh position={[0, 0, -0.001]}>
-                <planeGeometry args={[0.45, 0.12]} />
-                <meshBasicMaterial color="#059669" transparent opacity={0.9} /> {/* Emerald-600 background */}
-              </mesh>
-              <Text fontSize={0.045} color="white" fontWeight="bold" anchorX="center" anchorY="middle">
-                Click to Zoom
-              </Text>
-            </group>
+            <Suspense fallback={null}>
+              <group position={[0, 0, 0.02]}>
+                <mesh position={[0, 0, -0.001]}>
+                  <planeGeometry args={[0.45, 0.12]} />
+                  <meshBasicMaterial color="#059669" transparent opacity={0.9} /> {/* Emerald-600 background */}
+                </mesh>
+                <Text fontSize={0.045} color="white" fontWeight="bold" anchorX="center" anchorY="middle">
+                  Click to Visit
+                </Text>
+              </group>
+            </Suspense>
+          )}
+
+          {/* Delayed Iframe overlay */}
+          {showIframe && (
+            <Html
+              transform
+              distanceFactor={0.5}
+              position={[0, isMobile ? 0.1 : 0.03, 0.02]}
+              scale={0.65} 
+              zIndexRange={[100, 0]}
+            >
+              <div 
+                className="w-[1024px] h-[420px] bg-slate-900 pointer-events-auto rounded-sm overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+              >
+                <iframe
+                  src="https://iqravirtualschool.com/"
+                  className="w-full h-full border-0"
+                  title="Iqra Virtual School"
+                />
+              </div>
+            </Html>
           )}
         </group>
       </Center>
@@ -137,52 +175,58 @@ export default function Feature3DContainer() {
             e.stopPropagation();
             setIsZoomed(false);
           }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 bg-emerald-600 hover:bg-emerald-500 px-8 py-4 rounded-full transition-all duration-300 shadow-[0_10px_40px_rgba(5,150,105,0.6)] text-white flex items-center gap-3 cursor-pointer group animate-bounce"
+          className={`absolute bottom-16 md:bottom-8 left-1/2 -translate-x-1/2 z-50 bg-emerald-600 hover:bg-emerald-500 ${isMobile ? 'px-5 py-3' : 'px-8 py-4'} rounded-full transition-all duration-300 shadow-[0_10px_40px_rgba(5,150,105,0.6)] text-white flex items-center gap-2 md:gap-3 cursor-pointer group animate-bounce`}
           style={{ animationDuration: '2s' }}
         >
-          <svg className="w-6 h-6 group-hover:-translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 md:w-6 md:h-6 group-hover:-translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          <span className="font-black tracking-widest uppercase text-base">Zoom Out</span>
+          <span className="font-black tracking-widest uppercase text-sm md:text-base">Exit</span>
         </button>
       )}
 
       <Canvas
-        dpr={[1, 1.5]}
-        frameloop={isInView ? 'always' : 'demand'}
+        dpr={isMobile ? [1, 1] : [1, 1.5]}
+        frameloop={isInView || isZoomed ? 'always' : 'demand'}
         camera={{ position: [0, 0.5, 3.5], fov: 40, near: 0.1, far: 1000 }}
         style={{ touchAction: 'pan-y' }}
+        gl={{ antialias: !isMobile, powerPreference: 'high-performance' }}
+        onCreated={({ gl }) => {
+          gl.setClearColor('#EAE7E0');
+        }}
       >
         <CameraRig isZoomed={isZoomed} position={position} scale={scale} />
         
         <Environment preset="city" />
 
-        <Suspense fallback={null}>
-          {/* Floor */}
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, position[1], 0]}>
-            <planeGeometry args={[50, 50]} />
-            <meshStandardMaterial color="#FAFAF9" /> {/* Matches Stone White background */}
-          </mesh>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} 
+        position={[0, position[1], 0]} 
+        scale={[5,3,3]}>
+          <planeGeometry args={[50, 50]} />
+          <meshStandardMaterial color="#FAFAF9" />
+        </mesh>
 
-          {/* Wall */}
-          <mesh position={[0, position[1] + 25, -5]}>
-            <planeGeometry args={[50, 50]} />
-            <meshStandardMaterial color="#EAE7E0" /> {/* Limestone color to contrast slightly with the floor */}
-          </mesh>
-          <group
-            position={position}
-            rotation={[0, Math.PI / 1.25, 0]}
-            scale={scale}
-          >
-            <Avatar animation="Typing2" scale={1.2} visible={!isZoomed} />
-            <Chair position={[0, 0, 0.2]} rotation={[0, Math.PI / 2, 0]} scale={1.2} />
-            <Desk position={[0, 0, 1.10]} rotation={[0, Math.PI, 0]} scale={0.91} isZoomed={isZoomed} setIsZoomed={setIsZoomed} isMobile={isMobile} />
-          </group>
-        </Suspense>
+        <mesh position={[0, position[1] + 25, -5]} scale={[20,20,20]}>
+          <planeGeometry args={[50, 50]} />
+          <meshStandardMaterial color="#EAE7E0" />
+        </mesh>
+
+        <group
+          position={position}
+          rotation={[0, Math.PI / 1.25, 0]}
+          scale={scale}
+        >
+          <Avatar animation="Typing2" scale={1.2} visible={!isZoomed} />
+          <Chair position={[0, 0, 0.2]} rotation={[0, Math.PI / 2, 0]} scale={1.2} />
+          <Desk position={[0, 0, 1.10]} rotation={[0, Math.PI, 0]} scale={0.91} isZoomed={isZoomed} setIsZoomed={setIsZoomed} isMobile={isMobile} />
+        </group>
       </Canvas>
     </div>
   );
 }
 
+// Preload ALL assets so they're ready before user scrolls here
 useGLTF.preload('/models/chair.glb');
 useGLTF.preload('/models/pc_desk.glb');
+useGLTF.preload('/models/646d9dcdc8a5f5bddbfac913.glb');
+useTexture.preload('/ivsl3-logo.png');

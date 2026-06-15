@@ -25,28 +25,28 @@ import ContactCard from '../components/ContactCard';
 /* ---- Contact Details Data ---- */
 const contactDetails = [
   {
-    icon: Mail,
+    iconSrc: '/icons/email.gif',
     title: 'Email Us',
     primary: 'info@iqravirtualschool.net',
     secondary: 'admissions@iqravirtualschool.net',
     gradient: 'from-emerald-600 to-emerald-500',
   },
   {
-    icon: Phone,
+    iconSrc: '/icons/phone.gif',
     title: 'Call Us',
     primary: '+1 (555) 123-4567',
     secondary: '+1 (555) 987-6543',
     gradient: 'from-gold-500 to-gold-400',
   },
   {
-    icon: MapPin,
+    iconSrc: '/icons/google-maps.gif',
     title: 'Office Address',
     primary: '123 Knowledge Avenue',
     secondary: 'Education City, EC 45678',
     gradient: 'from-emerald-700 to-emerald-600',
   },
   {
-    icon: Clock,
+    iconSrc: '/icons/clock.gif',
     title: 'Office Hours',
     primary: 'Mon – Fri: 8:00 AM – 5:00 PM',
     secondary: 'Sat: 9:00 AM – 1:00 PM (EST)',
